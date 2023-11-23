@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 type Props = {};
 
-export default function Article({}: Props) {
+export default function PostPage({}: Props) {
   const { _id } = useParams();
 
   const id = useMemo(() => {

@@ -2,11 +2,12 @@ import AsyncErrorBoundary from '@/components/AsyncErrorBoundary';
 import ToastContainer from '@/components/ToastContainer';
 import Auth from '@/layout/Auth';
 import Default from '@/layout/Default';
-import Article from '@/pages/article/[_id]';
-import ArticleList from '@/pages/articles';
 import CategoryList from '@/pages/category-list';
 import HomePage from '@/pages/homepage';
 import Login from '@/pages/login';
+import Playground from '@/pages/playground';
+import PostPage from '@/pages/post/[_id]';
+import PostListPage from '@/pages/posts';
 import Register from '@/pages/register';
 import { useAuthStore } from '@/store';
 import { customTheme } from '@/theme/customFlowbite';
@@ -31,18 +32,25 @@ function App() {
         <BrowserRouter>
           <AsyncErrorBoundary>
             <Routes>
+              {/* Auth layout pages */}
               {!token?.length && (
                 <Route path="/auth" element={<Auth />}>
                   <Route index path="login" element={<Login />} />
                   <Route index path="register" element={<Register />} />
                 </Route>
               )}
+
+              {/* Default layout pages */}
               <Route path="/" element={<Default />}>
                 <Route index path="/" element={<HomePage />} />
                 <Route path="/category-list" element={<CategoryList />} />
-                <Route path="/post/:_id" element={<Article />} />
-                <Route path="/posts" element={<ArticleList />} />
+                <Route path="/post/:_id" element={<PostPage />} />
+                <Route path="/posts" element={<PostListPage />} />
               </Route>
+
+              <Route path="/playground" element={<Playground />} />
+
+              {/* Redirect unknown page to default page */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </AsyncErrorBoundary>

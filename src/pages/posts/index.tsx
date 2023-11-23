@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 type Props = {};
 
-export default function ArticleList({}: Props) {
+export default function PostListPage({}: Props) {
   const location = useLocation();
 
   const query = getQueryObjectFromSearch({ search: location.search });
