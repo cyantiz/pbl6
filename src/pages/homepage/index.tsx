@@ -9,7 +9,7 @@ export type HomePageProps = {
 const HomePage: FC<HomePageProps> = ({}) => {
   return (
     <div className="home-page">
-      <div className="home-page__first_section w-full gap-12 lg:gap-4 flex flex-wrap py-8">
+      <div className="home-page__first_section w-full h-min gap-12 lg:gap-4 flex flex-wrap py-8">
         <FrontPageNews />
         <div className="w-full md:w-1/3">
           <PopularNews />

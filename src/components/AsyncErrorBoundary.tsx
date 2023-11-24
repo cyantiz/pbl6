@@ -13,7 +13,9 @@ const AsyncErrorBoundary: FC<PropsWithChildren> = ({ children }) => {
         event.promise.catch((error) => {
           delete error.stack;
 
-          const errorMessage = error?.response?.data?.message ?? error?.message;
+          console.log('err', error);
+
+          const errorMessage = error?.response?.data?.error ?? error?.message;
 
           if (!errorMessage) {
             show({

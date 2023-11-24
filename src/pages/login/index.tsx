@@ -36,7 +36,7 @@ const Login: FC<Props> = ({}) => {
   });
 
   return (
-    <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex w-full flex-col gap-4 max-w-lg mx-auto" onSubmit={handleSubmit(onSubmit)}>
       <div className="greeting flex flex-col items-center mb-6">
         <h1 className="font-bold text-9xl font-smooch leading-[92px]">Welcome</h1>
         <p className="text-md">We are glad to see you back with us</p>
@@ -66,7 +66,7 @@ const Login: FC<Props> = ({}) => {
           required
           {...register('password', {
             required: true,
-            pattern: /^[a-zA-Z0-9]{8,}$/,
+            pattern: /^.{8,}$/,
           })}
         />
       </div>
@@ -83,7 +83,7 @@ const Login: FC<Props> = ({}) => {
         <div>
           {errors.password &&
             errors.password.type === 'pattern' &&
-            'Password must be at least 8 characters long'}
+            'Password must be at least 8 characters long, contain at least one number and one special character'}
         </div>
       </div>
       <Button type="submit" isProcessing={isLoadingLogin} color="dark">

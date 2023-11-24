@@ -1,4 +1,6 @@
 import { $get } from '../utils/axios';
+import { ICategoryModel } from './category.service';
+import { IMediaModel } from './media.service';
 
 export enum PostStatus {
   DRAFT = 'DRAFT',
@@ -12,6 +14,7 @@ export interface IPostModel {
   id: number;
   title: string;
   body: string;
+  secondaryText?: string;
   userId: number;
   status: PostStatus;
   createdAt: Date;
@@ -20,9 +23,20 @@ export interface IPostModel {
   downvote: number;
   categoryId: number;
   categoryName: number;
-  authorUsername: string;
-  authorName: string;
 }
+
+export type PostAuthor = {
+  id: number;
+  username: string;
+  name: string;
+};
+
+export type ExtendedPostModel = IPostModel & {
+  category: ICategoryModel;
+  author: PostAuthor;
+  visitCount: number;
+  thumbnailMedia: IMediaModel;
+};
 
 export type GetPostsQuery = {
   limit?: number;
@@ -40,4 +54,14 @@ export const getPosts = async (query: GetPostsQuery): Promise<IPostModel[]> => {
       ...query,
     },
   }).then((resp) => resp.data);
+};
+
+export const getPopularPost = async (params: { limit: number }): Promise<ExtendedPostModel[]> => {
+  return $get(`${MODEL_PREFIX}/popular`, {
+    params,
+  }).then((resp) => resp.data);
+};
+
+export const getFrontPagePost = async (): Promise<ExtendedPostModel> => {
+  return $get(`${MODEL_PREFIX}/front-page`).then((resp) => resp.data);
 };

@@ -39,6 +39,8 @@ const Navbar: FC<Props> = () => {
     shallow,
   );
 
+  console.log('authUser', authUser);
+
   const handleSignOut = () => {
     clearAuthData();
     location.replace('/auth/login');

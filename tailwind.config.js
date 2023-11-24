@@ -9,7 +9,7 @@ export default {
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
         smooch: ['Smooch Sans', 'sans-serif'],
-      }
+      },
     },
   },
   plugins: [require('flowbite/plugin')],
