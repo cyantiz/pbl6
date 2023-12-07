@@ -1,23 +1,67 @@
-import { IPostModel } from '@/services/post.service';
+import { getMediaUrl } from '@/services/media.service';
+import { ExtendedPostModel, PostStatus } from '@/services/post.service';
 import { getFormattedDate } from '@/utils/datetime';
+import { Icon } from '@iconify/react';
+import { Badge } from 'flowbite-react';
+import { Link } from 'react-router-dom';
 
-type Props = {} & IPostModel;
+type Props = {
+  showStatus?: boolean;
+} & ExtendedPostModel;
 
-export default function PostCard({ title, createdAt, categoryName }: Props) {
+const mapStatus2BadgeColor: Record<PostStatus, string> = {
+  [PostStatus.DRAFT]: 'gray',
+  [PostStatus.DENIED]: 'failure',
+  [PostStatus.PUBLISHED]: 'success',
+  [PostStatus.DELETED]: 'failure',
+};
+
+export default function PostCard({
+  slug,
+  title,
+  secondaryText,
+  status,
+  createdAt,
+  category,
+  visitCount,
+  thumbnailMedia,
+  showStatus = false,
+}: Props) {
   return (
-    <div className="bg-white overflow-hidden shadow-xl rounded-lg border-black w-1/3">
-      <img
-        src="https://images.unsplash.com/photo-1573748240263-a4e9c57a7fcd"
-        alt="People"
-        className="w-full object-cover h-32 sm:h-48 md:h-64"
-      />
-      <div className="p-4 md:p-6">
-        <p className="text-blue-500 font-semibold text-xs mb-1 leading-none">{categoryName}</p>
-        <h3 className="font-semibold mb-2 text-xl leading-tight sm:leading-normal">{title}</h3>
-        <div className="text-sm flex items-center">
-          <p className="leading-none">{getFormattedDate(createdAt)}</p>
+    <Link
+      to={status === PostStatus.PUBLISHED ? `/posts/${slug}` : '#'}
+      className="w-full lg:w-1/2 p-2"
+    >
+      <div className="bg-white overflow-hidden shadow-xl rounded-lg border-black group cursor-pointer">
+        <div className="w-full h-32 sm:h-48 md:h-64 overflow-hidden">
+          <img
+            src={getMediaUrl(thumbnailMedia)}
+            alt="Post-Thumbnail"
+            className="object-cover w-full h-full group-hover:scale-110 transition-all"
+          />
+        </div>
+        <div className="p-2 md:p-4">
+          <p className="flex gap-4 items-center mb-4">
+            <span className="text-blue-500 font-semibold text-xs leading-none">
+              {category.name}
+            </span>
+            {showStatus && (
+              <Badge size="xs" color={mapStatus2BadgeColor[status]} className="w-fit">
+                {status}
+              </Badge>
+            )}
+          </p>
+          <h3 className="font-semibold mb-1 text-lg leading-tight sm:leading-normal">{title}</h3>
+          <p className="line-clamp-2 mb-3 text-gray-500">{secondaryText}</p>
+
+          <div className="text-sm flex gap-2 text-gray-500">
+            <p className="leading-none flex gap-2 mr-2">
+              <Icon icon="ph:eye-bold" /> {visitCount}
+            </p>
+            <p className="leading-none">{getFormattedDate(createdAt)}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

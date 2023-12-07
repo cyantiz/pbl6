@@ -1,19 +1,16 @@
 import PostCard from '@/components/PostCard';
 import { PostStatus, getPosts } from '@/services/post.service';
-import { getQueryObjectFromSearch } from '@/utils/query';
 import { useQuery } from 'react-query';
-import { useLocation } from 'react-router-dom';
 
 type Props = {};
 
 export default function PostListPage({}: Props) {
-  const location = useLocation();
+  // const location = useLocation();
 
-  const query = getQueryObjectFromSearch({ search: location.search });
+  // const query = getQueryObjectFromSearch({ search: location.search });
 
-  const { data: posts } = useQuery('article-by-category', () =>
+  const { data: posts } = useQuery('get-all-posts', () =>
     getPosts({
-      category: query.category,
       status: PostStatus.PUBLISHED,
     }),
   );
@@ -21,7 +18,7 @@ export default function PostListPage({}: Props) {
   if (!posts) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className="flex flex-wrap justify-center">
       {posts?.map((post) => (
         <PostCard {...post} />
       ))}

@@ -13,7 +13,7 @@ interface IFormInputs {
   password: string;
 }
 
-const Login: FC<Props> = ({}) => {
+const LoginPage: FC<Props> = ({}) => {
   const { setToken } = useAuthStore((store) => ({
     setToken: store.setToken,
   }));
@@ -100,4 +100,4 @@ const Login: FC<Props> = ({}) => {
   );
 };
 
-export default Login;
+export default LoginPage;

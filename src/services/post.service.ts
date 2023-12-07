@@ -1,10 +1,11 @@
+import { $post } from '@/utils/axios';
 import { $get } from '../utils/axios';
 import { ICategoryModel } from './category.service';
 import { IMediaModel } from './media.service';
+import { PaginationResponse } from './pagination.service';
 
 export enum PostStatus {
   DRAFT = 'DRAFT',
-  PENDING = 'PENDING',
   DELETED = 'DELETED',
   DENIED = 'DENIED',
   PUBLISHED = 'PUBLISHED',
@@ -13,42 +14,54 @@ export enum PostStatus {
 export interface IPostModel {
   id: number;
   title: string;
+  slug: string;
   body: string;
   secondaryText?: string;
   userId: number;
   status: PostStatus;
   createdAt: Date;
+  publishedAt: Date;
   deletedAt: Date;
   upvote: number;
   downvote: number;
   categoryId: number;
-  categoryName: number;
+  thumbnailMediaId: number;
 }
 
-export type PostAuthor = {
+export type PostAuthorModel = {
   id: number;
   username: string;
   name: string;
+  avatarUrl: string;
 };
 
 export type ExtendedPostModel = IPostModel & {
   category: ICategoryModel;
-  author: PostAuthor;
+  author: PostAuthorModel;
   visitCount: number;
   thumbnailMedia: IMediaModel;
 };
 
 export type GetPostsQuery = {
-  limit?: number;
+  pageSize?: number;
   page?: number;
   sort?: string;
   status: PostStatus | PostStatus[];
   category?: string | string[];
 };
 
-const MODEL_PREFIX = '/post';
+export type CreatePostDto = {
+  title: string;
+  body: string;
+  categoryId: number;
+  thumbnailFile: File;
+};
 
-export const getPosts = async (query: GetPostsQuery): Promise<IPostModel[]> => {
+const MODEL_PREFIX = 'post';
+
+export const getPosts = async (
+  query: GetPostsQuery,
+): Promise<PaginationResponse<ExtendedPostModel>> => {
   return $get(`${MODEL_PREFIX}`, {
     params: {
       ...query,
@@ -56,7 +69,7 @@ export const getPosts = async (query: GetPostsQuery): Promise<IPostModel[]> => {
   }).then((resp) => resp.data);
 };
 
-export const getPopularPost = async (params: { limit: number }): Promise<ExtendedPostModel[]> => {
+export const getPopularPosts = async (params: { limit: number }): Promise<ExtendedPostModel[]> => {
   return $get(`${MODEL_PREFIX}/popular`, {
     params,
   }).then((resp) => resp.data);
@@ -64,4 +77,26 @@ export const getPopularPost = async (params: { limit: number }): Promise<Extende
 
 export const getFrontPagePost = async (): Promise<ExtendedPostModel> => {
   return $get(`${MODEL_PREFIX}/front-page`).then((resp) => resp.data);
+};
+
+export const createPost = async (data: CreatePostDto): Promise<IPostModel> => {
+  const formData = new FormData();
+  formData.append('filename', data.thumbnailFile);
+  formData.append('title', data.title);
+  formData.append('body', data.body);
+  formData.append('categoryId', data.categoryId.toString());
+
+  return $post(`${MODEL_PREFIX}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).then((resp) => resp.data);
+};
+
+export const getPostById = async (id: number): Promise<ExtendedPostModel> => {
+  return $get(`${MODEL_PREFIX}/${id}`).then((resp) => resp.data);
+};
+
+export const getPostBySlug = async (slug: string): Promise<ExtendedPostModel> => {
+  return $get(`${MODEL_PREFIX}/slug/${slug}`).then((resp) => resp.data);
 };

@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {};
-const CategoryList: FC<Props> = ({}) => {
+const CategoryListPage: FC<Props> = ({}) => {
   const navigate = useNavigate();
   const { data: categories, isFetching: isFetchingCategories } = useQuery(
     'category-list',
@@ -22,40 +22,43 @@ const CategoryList: FC<Props> = ({}) => {
   return (
     <div className="flex flex-wrap">
       {categories.map((category, index) => (
-        <Category
+        <CategoryListItem
           key={category.id}
           {...category}
-          textFirst={!!(index % 2)}
-          onClick={() => navigate(`/posts?category=${category.slug}`)}
+          reverse={!!(index % 2)}
+          onClick={() => navigate(`/posts/by-category?category=${category.slug}`)}
         />
       ))}
     </div>
   );
 };
 
-export default CategoryList;
+export default CategoryListPage;
 
-type CategoryProps = {
-  textFirst?: boolean;
+type CategoryListItemProps = {
+  reverse?: boolean;
   onClick: () => void;
 } & ICategoryModel;
-const Category: FC<CategoryProps> = ({ name, thumbnail, textFirst, onClick }) => {
+
+const CategoryListItem: FC<CategoryListItemProps> = ({ name, thumbnail, reverse, onClick }) => {
   return (
     <div
       className={classNames(
-        'flex flex-[30%] xl:flex-[25%] p-2 hover:scale-[1.02] cursor-pointer duration-300 group',
-        textFirst ? 'flex-col' : 'flex-col-reverse',
+        'flex flex-[30%] xl:flex-[25%] p-2 cursor-pointer duration-300 group',
+        reverse ? 'flex-col' : 'flex-col-reverse',
       )}
       onClick={onClick}
     >
       <div className="uppercase font-black rounded text-center text-lg xl:text-3xl px-3 py-6 bg-gray-200 group-hover:shadow-lg">
         {name}
       </div>
-      <img
-        src={thumbnail}
-        alt=""
-        className="object-cover rounded w-full h-full group-hover:shadow-lg"
-      />
+      <div className="overflow-hidden w-full h-full rounded">
+        <img
+          src={thumbnail}
+          alt=""
+          className="object-cover w-full h-full group-hover:shadow-lg group-hover:scale-110 transition-all"
+        />
+      </div>
     </div>
   );
 };

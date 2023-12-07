@@ -1,0 +1,102 @@
+.post__body {
+  p {
+    margin-bottom: 20px !important;
+  }
+
+  h1 {
+    font-size: 30px !important;
+    margin-bottom: 20px !important;
+  }
+
+  h2 {
+    font-size: 24px !important;
+    margin-bottom: 20px !important;
+  }
+
+  h3 {
+    font-size: 20px !important;
+    margin-bottom: 20px !important;
+  }
+
+  h4 {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+  }
+
+  h5 {
+    font-size: 16px !important;
+    margin-bottom: 20px !important;
+  }
+
+  h6 {
+    font-size: 14px !important;
+    margin-bottom: 20px !important;
+  }
+
+  ul {
+    margin-bottom: 20px !important;
+  }
+
+  img {
+    width: 100% !important;
+    object-fit: cover !important;
+  }
+
+  pre.ql-syntax {
+    background-color: #23241f !important;
+    color: #f8f8f2 !important;
+    overflow: visible !important;
+  }
+
+  pre {
+    white-space: pre-wrap !important;
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+    padding: 5px 10px !important;
+  }
+
+  code,
+  pre {
+    background-color: #f0f0f0 !important;
+    border-radius: 3px !important;
+  }
+
+  a {
+    color: #007bff !important;
+    text-decoration: underline !important;
+  }
+
+  ol {
+    margin-bottom: 20px !important;
+  }
+
+  ol li {
+    margin-left: 20px !important;
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9 !important;
+    counter-increment: list-0 !important;
+
+    &::before {
+      content: counter(list-0, decimal) '. ' !important;
+      margin-left: -1.5em !important;
+      margin-right: 0.3em !important;
+      text-align: right !important;
+      display: inline-block !important;
+      white-space: nowrap !important;
+      width: 1.2em !important;
+    }
+  }
+
+
+  blockquote {
+    border-left: 4px solid #ccc;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-left: 16px;
+  }
+
+  @media (max-width: 767px) {
+    p {
+      font-size: 14px !important;
+    }
+  }
+}

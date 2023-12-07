@@ -15,7 +15,7 @@ interface IFormInputs {
   name: string;
 }
 
-const Register: FC<Props> = ({}) => {
+const RegisterPage: FC<Props> = ({}) => {
   const {
     register,
     handleSubmit,
@@ -128,4 +128,4 @@ const Register: FC<Props> = ({}) => {
   );
 };
 
-export default Register;
+export default RegisterPage;

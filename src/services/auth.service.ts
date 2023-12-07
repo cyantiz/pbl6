@@ -1,9 +1,10 @@
 import { jwtDecode } from 'jwt-decode';
-import { $post } from '../utils/axios';
+import { $get, $post } from '../utils/axios';
 import { IUserModel } from './user.service';
 
 export enum Role {
   USER = 'USER',
+  EDITOR = 'EDITOR',
   MODERATOR = 'MODERATOR',
   ADMIN = 'ADMIN',
 }
@@ -28,6 +29,8 @@ type RegisterResp = {
   refreshToken: string;
 };
 
+export type MeModel = Pick<IUserModel, 'id' | 'username' | 'email' | 'name' | 'role' | 'avatarUrl'>;
+
 const apiPrefix = '/auth';
 
 export const login = async (params: { username: string; password: string }): Promise<LoginResp> => {
@@ -49,4 +52,8 @@ export const decodeAuthTokenPayload = (params: { token: string }) => {
   const result = jwtDecode<AuthPayload>(token);
 
   return result ?? {};
+};
+
+export const getMe = async (): Promise<MeModel> => {
+  return $get<MeModel>(`${apiPrefix}/me`).then((resp) => resp.data);
 };

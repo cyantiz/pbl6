@@ -1,6 +1,6 @@
 import Divider from '@/components/Divider';
 import { getMediaUrl } from '@/services/media.service';
-import { ExtendedPostModel, getPopularPost } from '@/services/post.service';
+import { ExtendedPostModel, getPopularPosts } from '@/services/post.service';
 import { FULL_DATETIME_FORMAT, getFormattedDate } from '@/utils/datetime';
 import { Icon } from '@iconify/react';
 import { FC, Fragment, useMemo } from 'react';
@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const PopularNews: FC = () => {
   const { isLoading, data: popularPosts } = useQuery<ExtendedPostModel[]>(
     'popular-posts',
-    () => getPopularPost({ limit: 5 }),
+    () => getPopularPosts({ limit: 5 }),
     {
       refetchOnWindowFocus: false,
     },
@@ -31,7 +31,7 @@ const PopularNews: FC = () => {
             <PopularNew
               title={post.title}
               secondaryText={post.secondaryText}
-              postId={post.id}
+              slug={post.slug}
               thumbnailUrl={getMediaUrl(post.thumbnailMedia)}
               views={post.visitCount}
               createdAt={post.createdAt}
@@ -45,8 +45,8 @@ const PopularNews: FC = () => {
 };
 
 type PopularNewProps = {
-  postId: number;
   title: string;
+  slug: string;
   secondaryText?: string;
   views: number;
   thumbnailUrl?: string;
@@ -55,7 +55,7 @@ type PopularNewProps = {
 
 const PopularNew: FC<PopularNewProps> = ({
   title,
-  postId,
+  slug,
   secondaryText,
   views,
   createdAt,
@@ -68,7 +68,7 @@ const PopularNew: FC<PopularNewProps> = ({
 
   return (
     <Link
-      to={`/posts/${postId}`}
+      to={`/posts/${slug}`}
       className="popular-news flex py-2 px-4 justify-between group cursor-pointer transition-all hover:h-48 h-24 bg-green-100 hover:text-white hover:bg-green-900 relative rounded-md overflow-hidden"
     >
       {thumbnailUrl && (
