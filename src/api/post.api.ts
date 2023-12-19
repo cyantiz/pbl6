@@ -1,8 +1,8 @@
 import { $post } from '@/utils/axios';
 import { $get } from '../utils/axios';
-import { ICategoryModel } from './category.service';
-import { IMediaModel } from './media.service';
-import { PaginationResponse } from './pagination.service';
+import { ICategoryModel } from './category.api';
+import { IMediaModel } from './media.api';
+import { PaginationResponse } from './pagination';
 
 export enum PostStatus {
   DRAFT = 'DRAFT',
@@ -40,13 +40,13 @@ export type ExtendedPostModel = IPostModel & {
   author: PostAuthorModel;
   visitCount: number;
   thumbnailMedia: IMediaModel;
+  medias: IMediaModel[];
 };
 
-export type GetPostsQuery = {
+export type GetPublishedPostsQuery = {
   pageSize?: number;
   page?: number;
   sort?: string;
-  status: PostStatus | PostStatus[];
   category?: string | string[];
 };
 
@@ -55,14 +55,15 @@ export type CreatePostDto = {
   body: string;
   categoryId: number;
   thumbnailFile: File;
+  status: PostStatus;
 };
 
 const MODEL_PREFIX = 'post';
 
-export const getPosts = async (
-  query: GetPostsQuery,
+export const getPublishedPosts = async (
+  query: GetPublishedPostsQuery,
 ): Promise<PaginationResponse<ExtendedPostModel>> => {
-  return $get(`${MODEL_PREFIX}`, {
+  return $get(`${MODEL_PREFIX}/published`, {
     params: {
       ...query,
     },
@@ -85,6 +86,7 @@ export const createPost = async (data: CreatePostDto): Promise<IPostModel> => {
   formData.append('title', data.title);
   formData.append('body', data.body);
   formData.append('categoryId', data.categoryId.toString());
+  formData.append('status', data.status);
 
   return $post(`${MODEL_PREFIX}`, formData, {
     headers: {
@@ -99,4 +101,16 @@ export const getPostById = async (id: number): Promise<ExtendedPostModel> => {
 
 export const getPostBySlug = async (slug: string): Promise<ExtendedPostModel> => {
   return $get(`${MODEL_PREFIX}/slug/${slug}`).then((resp) => resp.data);
+};
+
+export const getMyPosts = async (): Promise<ExtendedPostModel[]> => {
+  return $get(`${MODEL_PREFIX}/mine`).then((resp) => resp.data);
+};
+
+export const searchPosts = async (text: string): Promise<ExtendedPostModel[]> => {
+  return $get(`${MODEL_PREFIX}/search`, {
+    params: {
+      searchText: text,
+    },
+  }).then((resp) => resp.data);
 };

@@ -28,6 +28,12 @@ const TrendingPostsPage: FC<TrendingPostsPageProps> = ({}) => {
         <Container large={true}>
           <React.Fragment>
             <Container large>
+              <div className="w-full text-center mb-8">
+                <h1 className="text-center text-xl font-bold text-black uppercase">
+                  Trending news
+                </h1>
+                <span>The most popular news in the last 7 days</span>
+              </div>
               <TwoFirstPosts firstPost={posts[0]} secondPost={posts[1]} />
               <div className="mt-10 grid gap-10 md:grid-cols-2 lg:gap-10 xl:grid-cols-3">
                 {posts.slice(2).map((post) => (
@@ -70,7 +76,7 @@ const TwoFirstPosts: FC<TwoFirstPostsProps> = ({ firstPost, secondPost }) => {
                 data-nimg="fill"
                 className="object-cover transition-all w-full h-full inset-0 hover:scale-105"
                 sizes="(max-width: 768px) 30vw, 33vw"
-                src={getMediaUrl(post.thumbnailMedia)}
+                src={getMediaUrl(post.thumbnailMedia ?? post.medias?.at(0))}
               />
             </Link>
           </div>

@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@types/uuid": "^9.0.6",
     "@uidotdev/usehooks": "^2.4.1",
+    "antd": "^5.12.1",
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.0",
     "classnames": "^2.3.2",

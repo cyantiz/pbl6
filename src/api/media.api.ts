@@ -12,7 +12,7 @@ export interface IMediaModel {
 }
 
 export const getMediaUrl = (media?: IMediaModel) => {
-  if (!media || !media.fileName || !media.externalUrl) return undefined;
+  if (!media || (!media.fileName && !media.externalUrl)) return undefined;
   if (media.externalUrl) return media.externalUrl;
   return `${configs.MEDIA_STORAGE_HOST}%2F${media.fileName}?alt=media`;
 };

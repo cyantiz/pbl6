@@ -1,4 +1,4 @@
-import { Role } from './auth.service';
+import { Role } from './auth.api';
 
 export interface IUserModel {
   id: number;

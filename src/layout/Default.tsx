@@ -1,7 +1,7 @@
+// import Navbar from '@/components/layout-element/Navbar';
 import Navbar from '@/components/layout-element/Navbar';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
-
 type Props = {
   //
 };

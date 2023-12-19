@@ -24,8 +24,11 @@ const FrontPageNews: FC = () => {
       </div>
     );
 
-  const { title, thumbnailMedia, secondaryText } = frontPagePost;
-  const thumbnailUrl = getMediaUrl(thumbnailMedia);
+  const { title, thumbnailMedia, secondaryText, medias } = frontPagePost;
+  const thumbnailUrl = getMediaUrl(thumbnailMedia ?? medias?.at(0));
+
+  console.log('frontPagePost', frontPagePost);
+  console.log('thumbnailUrl', thumbnailUrl);
 
   return (
     <div className="flex justify-center flex-col xl:flex-row flex-1 gap-2 h-min">
@@ -50,14 +53,21 @@ const FrontPageNews: FC = () => {
         <Badge color="failure" className="absolute scale-100 top-2 left-2">
           Front-page
         </Badge>
-        <ContinueReadingButton />
+        <ContinueReadingButton
+          onClick={() => {
+            window.location.href = `/posts/${frontPagePost.slug}`;
+          }}
+        />
       </div>
     </div>
   );
 };
 
-const ContinueReadingButton: FC = () => (
-  <div className="absolute bottom-4 left-4 uppercase bg-green-400 text-white p-4 flex gap-3 group cursor-pointer rounded-3xl">
+const ContinueReadingButton = ({ onClick }: { onClick: () => void }) => (
+  <div
+    className="absolute bottom-4 left-4 uppercase bg-green-400 text-white p-4 flex gap-3 group cursor-pointer rounded-3xl"
+    onClick={onClick}
+  >
     <span className="font-medium text-xs">Continue reading</span>
     <Icon className="group-hover:translate-x-1 transition-all" icon="ph:arrow-right-bold" />
   </div>

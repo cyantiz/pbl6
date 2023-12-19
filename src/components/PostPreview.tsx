@@ -1,36 +1,51 @@
 import { getMediaUrl } from '@/services/media.service';
 import { ExtendedPostModel, PostAuthorModel } from '@/services/post.service';
 import { getFormattedDate } from '@/utils/datetime';
+import classNames from 'classnames';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import CategoryLabel from './CategoryLabel';
 
-export type PostPreviewProps = ExtendedPostModel;
+export type PostPreviewProps = ExtendedPostModel & {
+  horizontal?: boolean;
+  withSecondaryText?: boolean;
+};
 
-const PostPreview: FC<PostPreviewProps> = ({ ...post }) => {
+const PostPreview: FC<PostPreviewProps> = ({
+  horizontal = false,
+  withSecondaryText = false,
+  ...post
+}) => {
   return (
-    <div className="group cursor-pointer">
-      <div className="overflow-hidden rounded-md bg-gray-100 transition-all dark:bg-gray-800">
-        <Link to={`/posts/${post.slug}`}>
-          <img
-            alt="Thumbnail"
-            loading="lazy"
-            decoding="async"
-            data-nimg="fill"
-            className="object-cover transition-all w-full h-full inset-0 hover:scale-105"
-            sizes="(max-width: 768px) 30vw, 33vw"
-            src={getMediaUrl(post.thumbnailMedia)}
-          />
-        </Link>
+    <Link
+      className={classNames(
+        'group cursor-pointer p-8 flex gap-2 rounded-md hover:shadow-2xl transition-all',
+        horizontal ? 'flex-col md:h-[200px] xl:h-[360px] md:flex-row' : 'flex-col',
+      )}
+      to={`/posts/${post.slug}`}
+    >
+      <div
+        className={classNames(
+          'overflow-hidden rounded-md aspect-video bg-gray-100 transition-all dark:bg-gray-800',
+          { 'h-full': horizontal },
+        )}
+      >
+        <img
+          alt="Thumbnail"
+          loading="lazy"
+          decoding="async"
+          data-nimg="fill"
+          className="object-cover transition-all w-full h-full inset-0 group-hover:scale-105"
+          src={getMediaUrl(post?.thumbnailMedia ?? post.medias?.at(0))}
+        />
       </div>
-      <div className="">
-        <div>
-          <CategoryLabel category={post.category} />
-          <PostTitle title={post.title} />
-          <PostCredit author={post.author} createdAt={post.createdAt} />
-        </div>
+      <div className="flex flex-col flex-1">
+        <CategoryLabel category={post.category} />
+        <PostTitle title={post.title} />
+        <PostCredit author={post.author} createdAt={post.createdAt} />
+        {withSecondaryText && post.secondaryText && <SecondaryText text={post.secondaryText} />}
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -41,11 +56,9 @@ export type TitleProps = {
 export const PostTitle: FC<TitleProps> = ({ title }) => {
   return (
     <h2 className="text-lg font-semibold leading-snug tracking-tight pt-2 dark:text-white">
-      <a href="/post/architectural-engineering-wonders-of-the-modern-era-for-your-inspiration">
-        <span className="bg-gradient-to-r from-green-200 to-green-100 bg-[length:0px_10px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 hover:bg-[length:100%_3px] group-hover:bg-[length:100%_10px] dark:from-purple-800 dark:to-purple-900">
-          {title}
-        </span>
-      </a>
+      <span className="bg-gradient-to-r from-green-200 to-green-100 bg-[length:0px_10px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 hover:bg-[length:100%_3px] group-hover:bg-[length:100%_10px] dark:from-purple-800 dark:to-purple-900">
+        {title}
+      </span>
     </h2>
   );
 };
@@ -81,4 +94,13 @@ export const PostCredit: FC<PostCreditProps> = ({ createdAt, author }) => {
     </div>
   );
 };
+
+export type SecondaryTextProps = {
+  text: string;
+};
+
+const SecondaryText: FC<SecondaryTextProps> = ({ text }) => {
+  return <div className="text-ellipsis overflow-hidden m-0 mt-4 w-full line-clamp-3">{text}</div>;
+};
+
 export default PostPreview;

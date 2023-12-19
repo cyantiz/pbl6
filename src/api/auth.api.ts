@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 import { $get, $post } from '../utils/axios';
-import { IUserModel } from './user.service';
+import { IUserModel } from './user.api';
 
 export enum Role {
   USER = 'USER',
@@ -40,7 +40,7 @@ export const login = async (params: { username: string; password: string }): Pro
 };
 
 export const register = async (
-  params: Pick<IUserModel, 'name' | 'email'> & { password: string },
+  params: Pick<IUserModel, 'name' | 'email' | 'username'> & { password: string },
 ): Promise<RegisterResp> => {
   return $post<RegisterResp>(`${apiPrefix}/register`, {
     ...params,

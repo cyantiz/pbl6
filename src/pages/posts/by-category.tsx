@@ -1,6 +1,6 @@
 import PostPreview from '@/components/PostPreview';
 import { getCategoryBySlug } from '@/services/category.service';
-import { PostStatus, getPosts } from '@/services/post.service';
+import { getPublishedPosts } from '@/services/post.service';
 import { getQueryObjectFromSearch } from '@/utils/query';
 import { Icon } from '@iconify/react';
 import { Button } from 'flowbite-react';
@@ -29,10 +29,9 @@ export default function PostListByCategoryPage({}: Props) {
   } = useInfiniteQuery({
     queryKey: ['posts-by-category', query.category],
     queryFn: ({ pageParam = 1 }) =>
-      getPosts({
+      getPublishedPosts({
         page: pageParam,
         pageSize: 3,
-        status: PostStatus.PUBLISHED,
         category: query.category as string,
       }),
     getNextPageParam: (lastPage) => {

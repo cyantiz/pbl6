@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const PopularNews: FC = () => {
   const { isLoading, data: popularPosts } = useQuery<ExtendedPostModel[]>(
     'popular-posts',
-    () => getPopularPosts({ limit: 5 }),
+    () => getPopularPosts({ limit: 20 }),
     {
       refetchOnWindowFocus: false,
     },
@@ -25,20 +25,27 @@ const PopularNews: FC = () => {
       </h1>
       <br />
 
-      <div className="flex flex-col gap-2 lg:gap-1">
-        {popularPosts?.map((post, index, arr) => (
-          <Fragment key={post.id}>
-            <PopularNew
-              title={post.title}
-              secondaryText={post.secondaryText}
-              slug={post.slug}
-              thumbnailUrl={getMediaUrl(post.thumbnailMedia)}
-              views={post.visitCount}
-              createdAt={post.createdAt}
-            />
-            {index !== arr.length - 1 && <Divider width="half" />}
-          </Fragment>
-        ))}
+      <div
+        style={{
+          height: 'calc(100vh - 280px)',
+          overflowY: 'auto',
+        }}
+      >
+        <div className="flex flex-col gap-2 lg:gap-1">
+          {popularPosts?.map((post, index, arr) => (
+            <Fragment key={post.id}>
+              <PopularNew
+                title={post.title}
+                secondaryText={post.secondaryText}
+                slug={post.slug}
+                thumbnailUrl={getMediaUrl(post.thumbnailMedia ?? post.medias?.at(0))}
+                views={post.visitCount}
+                createdAt={post.createdAt}
+              />
+              {index !== arr.length - 1 && <Divider width="half" />}
+            </Fragment>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -78,7 +85,7 @@ const PopularNew: FC<PopularNewProps> = ({
         ></img>
       )}
       <div className="flex flex-col gap-1 flex-1 justify-between w-full relative z-2">
-        <h1 className="md:text-lg lg:text-xl font-bold">{title}</h1>
+        <h1 className="text-lg md:text-lg lg:text-xl font-bold">{title}</h1>
         <div className="hidden group-hover:line-clamp-3">{secondaryText}</div>
         <div className="flex flex-col text-sm font-medium lg:flex-row">
           <span className="flex gap-2 items-center w-24">

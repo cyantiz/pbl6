@@ -1,40 +1,36 @@
-import { register as sendRegisterRequest } from '@/services/auth.service';
+import { register } from '@/services/auth.service';
 import { useAuthStore } from '@/store';
-import { Button, Label, TextInput } from 'flowbite-react';
-import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+
+import { ArrowLeftOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input } from 'antd';
 import { useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
-
-type Props = {};
 
 interface IFormInputs {
   email: string;
   password: string;
-  passwordAgain: string;
+  confirm: string;
   name: string;
+  username: string;
 }
 
-const RegisterPage: FC<Props> = ({}) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>();
+const RegisterPage = () => {
+  const [form] = Form.useForm();
 
   const { setToken } = useAuthStore((store) => ({
     setToken: store.setToken,
   }));
 
-  const onSubmit = (data: IFormInputs) => mutateRegister(data);
-
-  const { mutate: mutateRegister, isLoading: isLoadingRegister } = useMutation(
-    async (formData: IFormInputs) =>
-      sendRegisterRequest({
-        email: formData.email,
-        password: formData.password,
-        name: formData.name,
-      }),
+  const { mutate, isLoading } = useMutation(
+    () => {
+      const values = form.getFieldsValue();
+      return register({
+        email: values.email,
+        password: values.password,
+        name: values.name,
+        username: values.username,
+      });
+    },
     {
       onSuccess: (data) => {
         console.log(data);
@@ -45,86 +41,83 @@ const RegisterPage: FC<Props> = ({}) => {
       },
     },
   );
+
   return (
-    <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <div className="flex w-full flex-col gap-4 max-w-lg mx-auto">
       <div>
         <Link to="/auth/login" className="text-blue-500">
-          Back to login
+          <ArrowLeftOutlined /> Back to login
         </Link>
       </div>
       <h1 className="font-bold text-8xl font-smooch leading-[92px]">Sign up</h1>
-      <div>
-        <div className="mb-2 block">
-          <Label htmlFor="name" value="Full Name" />
-        </div>
-        <TextInput
-          id="name"
-          type="text"
-          placeholder="John Doe"
-          required
-          {...register('name', {
-            required: true,
-          })}
-        />
-      </div>
-      <div>
-        <div className="mb-2 block">
-          <Label htmlFor="email1" value="Your email" />
-        </div>
-        <TextInput
-          id="email1"
-          type="email"
-          placeholder="your_email@domain.com"
-          required
-          {...register('email', {
-            required: true,
-            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-          })}
-        />
-      </div>
-      <div>
-        <div className="mb-2 block">
-          <Label htmlFor="password1" value="Your password" />
-        </div>
-        <TextInput
-          id="password1"
-          type="password"
-          required
-          {...register('password', {
-            required: true,
-            pattern: /^[a-zA-Z0-9]{8,}$/,
-          })}
-        />
-      </div>
-      <div>
-        <div className="mb-2 block">
-          <Label htmlFor="password2" value="Enter your password again" />
-        </div>
-        <TextInput
-          id="password2"
-          type="password"
-          required
-          {...register('passwordAgain', {
-            required: true,
-            validate: (value) => value === 'password1',
-          })}
-        />
-      </div>
-      <div className="text-red-500">
-        {errors.name && errors.name.type === 'required' && 'Last name is required'}
-        {errors.email && errors.email.type === 'required' && 'Email is required'}
-        {errors.email && errors.email.type === 'pattern' && 'Email is not valid'}
-        {errors.password && errors.password.type === 'required' && 'Password is required'}
-        {errors.password &&
-          errors.password.type === 'pattern' &&
-          'Password must be at least 8 characters long'}
-        {errors.passwordAgain && errors.passwordAgain.type === 'required' && 'Password is required'}
-        {errors.passwordAgain && errors.passwordAgain.type === 'validate' && 'Passwords must match'}
-      </div>
-      <Button type="submit" isProcessing={isLoadingRegister}>
-        Submit
-      </Button>
-    </form>
+
+      <Form form={form} name="register" onFinish={mutate}>
+        <Form.Item name="name" rules={[{ required: true, message: 'Fullname is require' }]}>
+          <Input prefix={<UserOutlined />} placeholder="Full Name" />
+        </Form.Item>
+
+        <Form.Item
+          name="username"
+          rules={[
+            { required: true, message: 'username is require' },
+            {
+              pattern: /^[a-zA-Z0-9_]{6,20}$/,
+              message: 'Username must be 6-20 characters, letters, numbers, and underscores only',
+            },
+          ]}
+        >
+          <Input prefix={<UserOutlined />} placeholder="@username" />
+        </Form.Item>
+
+        <Form.Item
+          name="email"
+          rules={[
+            { type: 'email', message: 'Must be a valid email' },
+            { required: true, message: 'Email is required' },
+          ]}
+        >
+          <Input prefix={<UserOutlined />} placeholder="Email" />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          rules={[
+            { min: 8, message: 'Password must have at least 8 characters' },
+            {
+              max: 32,
+              message: 'Password must have at most 32 characters',
+            },
+            { required: true, message: 'Password is required' },
+          ]}
+        >
+          <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+        </Form.Item>
+
+        <Form.Item
+          name="confirm"
+          dependencies={['password']}
+          rules={[
+            { required: true, message: 'Please type your password again' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject('Passwords do not match');
+              },
+            }),
+          ]}
+        >
+          <Input.Password prefix={<LockOutlined />} placeholder="Confirm Password" />
+        </Form.Item>
+
+        <Form.Item>
+          <Button type="primary" htmlType="submit" loading={isLoading}>
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 

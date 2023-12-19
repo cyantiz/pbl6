@@ -1,8 +1,7 @@
 import { getAllCategories } from '@/services/category.service';
-import { createPost } from '@/services/post.service';
-import { Button, Label, Select, TextInput } from 'flowbite-react';
+import { PostStatus, createPost } from '@/services/post.service';
+import { Button, Form, Input, Select } from 'antd';
 import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import Swal from 'sweetalert2';
 import PreviewPost from './PreviewPost';
@@ -20,27 +19,27 @@ interface IFormInputs {
 }
 
 const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
-  const {
-    getValues: getFormValues,
-    register: registerForm,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>();
-
   const { data: categories } = useQuery('get-categories', () => getAllCategories(), {
     refetchOnWindowFocus: false,
   });
 
+  const [title, setTitle] = useState('');
+  const [categoryId, setCategoryId] = useState<number | undefined>(undefined);
   const [content, setContent] = useState('');
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const onSubmit = async ({ title, categoryId }: IFormInputs) => {
+    console.log('title', title);
+    console.log('categoryId', categoryId);
+
     if (!thumbnailFile) {
       Swal.fire({
         title: 'Error',
         text: 'Thumbnail is required',
         icon: 'error',
         // on button click -> redirect to main page
+      }).then(() => {
+        window.location.replace('/posts/mine');
       });
 
       return;
@@ -51,6 +50,7 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
       body: content,
       categoryId,
       thumbnailFile: thumbnailFile,
+      status: PostStatus.PUBLISHED,
     });
   };
 
@@ -61,7 +61,7 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
         text: 'Create post successfully',
         icon: 'success',
       }).then(() => {
-        window.location.replace('/my-posts');
+        window.location.replace('/posts/mine');
       });
     },
     onError: (error: any) => {
@@ -76,46 +76,56 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
 
   return (
     <>
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+      <Form
+        className="flex flex-col gap-6"
+        layout="vertical"
+        onFinish={onSubmit}
+        onFinishFailed={() => {
+          Swal.fire({
+            title: 'Error',
+            text: 'Please fill all required fields',
+            icon: 'error',
+          });
+        }}
+      >
         <div>
-          <div className="mb-2 block">
-            <Label htmlFor="title" value="Title" className="font-bold" />
-          </div>
-          <TextInput
-            id="title"
-            type="text"
-            placeholder="Title"
-            required
-            {...registerForm('title', {
-              required: true,
-              pattern: /^[a-zA-Z0-9]{10,}$/,
-            })}
-          />
-          {errors.title && errors.title.type === 'required' && (
-            <p className="text-red-500">Title is required</p>
-          )}
-          {errors.title && errors.title.type === 'pattern' && (
-            <p className="text-red-500">Title must be at least 10 characters</p>
-          )}
+          <Form.Item<string>
+            label="Title"
+            name="title"
+            rules={[{ required: true, message: 'Please input title!' }]}
+          >
+            <Input
+              size="large"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+              placeholder="Title"
+            />
+          </Form.Item>
         </div>
 
         <div>
-          <div className="mb-2 block">
-            <Label htmlFor="title" aria-required={true} value="Category" className="font-bold" />
-          </div>
-          <Select
-            id="categoryId"
-            {...registerForm('categoryId', {
-              required: true,
-            })}
+          <Form.Item
+            label="Category"
+            name="categoryId"
             required
+            rules={[{ required: true, message: 'Please select category!' }]}
           >
-            {categories?.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </Select>
+            <Select
+              className="w-96"
+              id="categoryId"
+              defaultActiveFirstOption={true}
+              value={categoryId}
+              onChange={(opt) => {
+                setCategoryId(opt as number);
+              }}
+              options={categories?.map((category) => ({
+                label: category.name,
+                value: category.id,
+              }))}
+            />
+          </Form.Item>
         </div>
 
         <div>
@@ -134,12 +144,12 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
         <QuillBody content={content} onChange={(newValue) => setContent(newValue)} />
 
         <div className="flex justify-end gap-4">
-          <PreviewPost title={getFormValues().title} content={content} />
-          <Button type="submit" color="dark" isProcessing={isLoadingCreatePost}>
+          <PreviewPost title={title} content={content} />
+          <Button htmlType="submit" size="large" loading={isLoadingCreatePost}>
             Submit
           </Button>
         </div>
-      </form>
+      </Form>
     </>
   );
 };

@@ -12,7 +12,14 @@ export default {
     'max-w-screen-xl',
     'max-w-screen-lg',
     'py-5',
-    'lg: py-8'
+    'lg: py-8',
+    'flex',
+    'flex-row',
+    'flex-col',
+    'rounded-md',
+    'transition-all',
+    'shadow-lg',
+    'group',
   ],
   theme: {
     extend: {
@@ -23,5 +30,8 @@ export default {
     },
   },
   plugins: [require('flowbite/plugin')],
+  corePlugins: {
+    preflight: false,
+  }
 }
 

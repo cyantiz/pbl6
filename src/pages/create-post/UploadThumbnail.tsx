@@ -7,7 +7,7 @@ type Props = {
 
 export const UploadThumbnail: FC<Props> = ({ onChange }) => {
   return (
-    <div id="fileUpload" className="max-w-md ">
+    <div id="fileUpload" className="max-w-md p-4">
       <div className="mb-2 block">
         <Label htmlFor="file" value="Upload thumbnail image" className="font-bold" />
       </div>

@@ -10,6 +10,8 @@ import Playground from '@/pages/playground';
 import PostListPage from '@/pages/posts';
 import PostDetailPage from '@/pages/posts/[_slug]';
 import PostListByCategoryPage from '@/pages/posts/by-category';
+import PostListBySearchPage from '@/pages/posts/by-search';
+import MyPostsPage from '@/pages/posts/mine';
 import TrendingPostsPage from '@/pages/posts/trending';
 import RegisterPage from '@/pages/register';
 import { useAuthStore } from '@/store';
@@ -55,7 +57,9 @@ function App() {
                 <Route path="/category-list" element={<CategoryListPage />} />
                 <Route path="/posts/:_slug" element={<PostDetailPage />} />
                 <Route path="/posts" element={<PostListPage />} />
+                <Route path="/posts/mine" element={<MyPostsPage />} />
                 <Route path="/posts/by-category" element={<PostListByCategoryPage />} />
+                <Route path="/posts/by-search" element={<PostListBySearchPage />} />
                 <Route path="/posts/trending" element={<TrendingPostsPage />} />
                 <Route path="/create-post" element={<CreatePostPage />} />
               </Route>
