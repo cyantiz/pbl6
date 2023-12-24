@@ -1,6 +1,6 @@
 // import Navbar from '@/components/layout-element/Navbar';
-import Navbar from '@/components/layout-element/Navbar';
-import Sidebar from '@/components/layout-element/Sidebar';
+import Navbar from '@/components/layout-element/Default/Navbar';
+import Sidebar from '@/components/layout-element/Default/Sidebar';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 type Props = {

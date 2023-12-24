@@ -1,7 +1,10 @@
 import AsyncErrorBoundary from '@/components/AsyncErrorBoundary';
 import ToastContainer from '@/components/ToastContainer';
+import AdminLayout from '@/layout/Admin';
 import Auth from '@/layout/Auth';
 import Default from '@/layout/Default';
+import AdminEditorManagementPage from '@/pages/admin/accounts/edtiors';
+import AdminUserManagementPage from '@/pages/admin/accounts/users';
 import CategoryListPage from '@/pages/category-list';
 import CreatePostPage from '@/pages/create-post';
 import HomePage from '@/pages/homepage';
@@ -68,6 +71,11 @@ function App() {
                   <Route path="/create-post" element={<CreatePostPage />} />
                 </Route>
 
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<></>} />
+                  <Route path="/admin/accounts/users" element={<AdminUserManagementPage />} />
+                  <Route path="/admin/accounts/editors" element={<AdminEditorManagementPage />} />
+                </Route>
                 <Route path="/playground" element={<Playground />} />
 
                 {/* Redirect unknown page to default page */}
