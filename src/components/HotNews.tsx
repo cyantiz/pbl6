@@ -1,5 +1,5 @@
-import { getMediaUrl } from '@/services/media.service';
-import { ExtendedPostModel } from '@/services/post.service';
+import { getMediaUrl } from '@api/media.api';
+import { ExtendedPostModel } from '@api/post.api';
 import { Icon } from '@iconify/react';
 import { FC } from 'react';
 

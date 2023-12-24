@@ -10,7 +10,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src/'),
       '@components': `${path.resolve(__dirname, './src/components/')}`,
       '@routes': `${path.resolve(__dirname, './src/routes/')}`,
-      '@services': `${path.resolve(__dirname, './src/services/')}`,
+      '@api': `${path.resolve(__dirname, './src/api/')}`,
       '@assets': `${path.resolve(__dirname, './src/assets/')}`,
     },
   },

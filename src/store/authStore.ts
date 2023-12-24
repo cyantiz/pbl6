@@ -1,5 +1,5 @@
 import { createWithEqualityFn } from 'zustand/traditional';
-import { MeModel, getMe } from '../services/auth.service';
+import { MeModel, getMe } from '../api/auth.api';
 
 interface IAuthState {
   token: string;

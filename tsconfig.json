@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./src/*", "./dist/*"],
       "@routes/*": ["./src/routes/*"],
-      "@services/*": ["./src/services/*"],
+      "@api/*": ["./src/api/*"],
       "@components/*": ["./src/components/*"],
       "@assets/*": ["./src/assets/*"]
     }

@@ -11,17 +11,16 @@ import PostListPage from '@/pages/posts';
 import PostDetailPage from '@/pages/posts/[_slug]';
 import PostListByCategoryPage from '@/pages/posts/by-category';
 import PostListBySearchPage from '@/pages/posts/by-search';
+import HotNewsPostsPage from '@/pages/posts/hot-news';
 import MyPostsPage from '@/pages/posts/mine';
-import TrendingPostsPage from '@/pages/posts/trending';
 import RegisterPage from '@/pages/register';
 import { useAuthStore } from '@/store';
-import { customTheme } from '@/theme/customFlowbite';
-import { Flowbite } from 'flowbite-react';
+import { StyleProvider } from '@ant-design/cssinjs';
+import { ConfigProvider, theme } from 'antd';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';
-
 const queryClient = new QueryClient();
 
 function App() {
@@ -38,42 +37,48 @@ function App() {
   }, []);
 
   return (
-    <Flowbite theme={{ theme: customTheme }}>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <AsyncErrorBoundary>
-            <Routes>
-              {/* Auth layout pages */}
-              {!token?.length && (
-                <Route path="/auth" element={<Auth />}>
-                  <Route index path="login" element={<LoginPage />} />
-                  <Route index path="register" element={<RegisterPage />} />
+    <ConfigProvider
+      theme={{
+        algorithm: theme.defaultAlgorithm,
+      }}
+    >
+      <StyleProvider hashPriority="high">
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <AsyncErrorBoundary>
+              <Routes>
+                {/* Auth layout pages */}
+                {!token?.length && (
+                  <Route path="/auth" element={<Auth />}>
+                    <Route index path="login" element={<LoginPage />} />
+                    <Route index path="register" element={<RegisterPage />} />
+                  </Route>
+                )}
+
+                {/* Default layout pages */}
+                <Route path="/" element={<Default />}>
+                  <Route index path="/" element={<HomePage />} />
+                  <Route path="/category-list" element={<CategoryListPage />} />
+                  <Route path="/posts/:_slug" element={<PostDetailPage />} />
+                  <Route path="/posts" element={<PostListPage />} />
+                  <Route path="/posts/mine" element={<MyPostsPage />} />
+                  <Route path="/posts/by-category" element={<PostListByCategoryPage />} />
+                  <Route path="/posts/by-search" element={<PostListBySearchPage />} />
+                  <Route path="/posts/hot-news" element={<HotNewsPostsPage />} />
+                  <Route path="/create-post" element={<CreatePostPage />} />
                 </Route>
-              )}
 
-              {/* Default layout pages */}
-              <Route path="/" element={<Default />}>
-                <Route index path="/" element={<HomePage />} />
-                <Route path="/category-list" element={<CategoryListPage />} />
-                <Route path="/posts/:_slug" element={<PostDetailPage />} />
-                <Route path="/posts" element={<PostListPage />} />
-                <Route path="/posts/mine" element={<MyPostsPage />} />
-                <Route path="/posts/by-category" element={<PostListByCategoryPage />} />
-                <Route path="/posts/by-search" element={<PostListBySearchPage />} />
-                <Route path="/posts/trending" element={<TrendingPostsPage />} />
-                <Route path="/create-post" element={<CreatePostPage />} />
-              </Route>
+                <Route path="/playground" element={<Playground />} />
 
-              <Route path="/playground" element={<Playground />} />
-
-              {/* Redirect unknown page to default page */}
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </AsyncErrorBoundary>
-        </BrowserRouter>
-        <ToastContainer />
-      </QueryClientProvider>
-    </Flowbite>
+                {/* Redirect unknown page to default page */}
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </AsyncErrorBoundary>
+          </BrowserRouter>
+          <ToastContainer />
+        </QueryClientProvider>
+      </StyleProvider>
+    </ConfigProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { createMedia, getMediaUrl } from '@/services/media.service';
+import { createMedia, getMediaUrl } from '@api/media.api';
 import { Label } from 'flowbite-react';
 import Quill, { DeltaStatic, Sources } from 'quill';
 import { FC, useRef } from 'react';

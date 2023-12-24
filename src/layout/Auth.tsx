@@ -10,8 +10,8 @@ const Auth: FC<Props> = ({}) => {
   return (
     <div className="w-screen h-screen flex flex-row">
       <div className="w-full max-w xl:w-[512px] py-8 pl-12 pr-12 xl:pr-6 flex flex-col justify-between">
-        <Link className="font-black text-4xl" to="/">
-          Logo
+        <Link className="font-black text-4xl font-playfair" to="/">
+          Sportivefy
         </Link>
         <div className="flex-1 flex w-full items-center">
           <Outlet />

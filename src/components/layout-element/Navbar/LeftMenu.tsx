@@ -24,16 +24,14 @@ const NAVBAR_LINKS = [
   },
 ];
 
-type Props = Partial<MenuProps> & {
-  key: string;
-};
+type Props = Partial<MenuProps> & {};
 
-const LeftMenu = ({ mode, key }: Props) => {
+const LeftMenu = ({ mode }: Props) => {
   return (
-    <Menu key={key} mode={mode}>
+    <Menu mode={mode}>
       {NAVBAR_LINKS.map((link) => (
-        <Menu.Item key={link.path + key}>
-          <Link to={link.path} className="flex gap-2">
+        <Menu.Item key={'left-menu' + link.path}>
+          <Link to={link.path} className="flex gap-2 font-sans">
             {link.icon}
             {link.name}
           </Link>

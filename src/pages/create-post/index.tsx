@@ -1,6 +1,6 @@
-import { getAllCategories } from '@/services/category.service';
-import { PostStatus, createPost } from '@/services/post.service';
-import { Button, Form, Input, Select } from 'antd';
+import { getAllCategories } from '@api/category.api';
+import { PostStatus, createPost } from '@api/post.api';
+import { Breadcrumb, Button, Form, Input, Select } from 'antd';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import Swal from 'sweetalert2';
@@ -76,8 +76,22 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
 
   return (
     <>
+      <Breadcrumb
+        items={[
+          {
+            title: 'Home',
+          },
+          {
+            title: <a href="">Editor</a>,
+          },
+          {
+            title: 'Create Post',
+          },
+        ]}
+      />
+
       <Form
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-6 max-w-3xl mx-auto"
         layout="vertical"
         onFinish={onSubmit}
         onFinishFailed={() => {
@@ -129,16 +143,21 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
         </div>
 
         <div>
-          <UploadThumbnail
-            onChange={(event) => {
-              const file = event.target.files?.[0];
-
-              if (!file) return;
-
-              setThumbnailFile(file);
-            }}
-          />
-          <PreviewThumbnail file={thumbnailFile} />
+          <p className="pb-2 m-0">Thumbnail</p>
+          {!thumbnailFile && (
+            <UploadThumbnail
+              onChange={(file) => {
+                if (!file) return;
+                setThumbnailFile(file);
+              }}
+            />
+          )}
+          {thumbnailFile && (
+            <PreviewThumbnail
+              file={thumbnailFile}
+              onDeleteBtnClick={() => setThumbnailFile(null)}
+            />
+          )}
         </div>
 
         <QuillBody content={content} onChange={(newValue) => setContent(newValue)} />

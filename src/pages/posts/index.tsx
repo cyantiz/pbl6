@@ -1,8 +1,8 @@
 import PostPreview from '@/components/PostPreview';
-import { getPublishedPosts } from '@/services/post.service';
+import { getPublishedPosts } from '@api/post.api';
 import { Icon } from '@iconify/react';
 import { Button } from 'flowbite-react';
-import { useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { useInfiniteQuery } from 'react-query';
 
 type Props = {};
@@ -35,6 +35,7 @@ export default function PostListPage({}: Props) {
 
   return (
     <>
+      <Banner />
       {isLoadingPosts && 'Loading...'}
       {postPages && (
         <div className="w-full px-2 gap-8 flex flex-col">
@@ -66,3 +67,23 @@ export default function PostListPage({}: Props) {
     </>
   );
 }
+
+const Banner: FC = ({}) => {
+  return (
+    <div className="rounded flex flex-col md:flex-row mb-4 items-center justify-between mt-6 relative bg-gradient-to-r from-[#303030] via-purple-700 to-purple-600 mx-2">
+      <div className=" layout flex flex-col max-w-[586px] py-6 px-8">
+        <span className="font-playfair title text-white font-bold text-3xl mb-2">Latest news</span>
+        <span className="text-white font-playfair">
+          Stay up-to-date with the latest sport news from our best writers.
+        </span>
+      </div>
+      <div className="md:max-w-[400px] h-full">
+        <img
+          src="https://img.vietcetera.com/uploads/images/assets/user-need/tom-lai-la.png"
+          alt=""
+          className="block w-full h-full"
+        />
+      </div>
+    </div>
+  );
+};

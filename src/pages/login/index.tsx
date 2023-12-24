@@ -1,6 +1,6 @@
-import { login } from '@/services/auth.service';
 import { useAuthStore } from '@/store';
 import { ArrowRightOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
+import { login } from '@api/auth.api';
 import { Button, Form, Input } from 'antd';
 import { FC } from 'react';
 import { useMutation } from 'react-query';
@@ -40,7 +40,7 @@ const LoginPage: FC<Props> = ({}) => {
   return (
     <div className="flex w-full flex-col gap-4 max-w-lg mx-auto">
       <div className="greeting flex flex-col items-center mb-6">
-        <h1 className="font-bold text-9xl font-smooch leading-[92px]">Welcome</h1>
+        <h1 className="font-bold text-5xl lg:text-6xl font-playfair">Welcome!</h1>
         <p className="text-lg">We are glad to see you back,</p>
       </div>
       <Form

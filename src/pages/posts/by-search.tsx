@@ -1,6 +1,6 @@
 import PostPreview from '@/components/PostPreview';
-import { searchPosts } from '@/services/post.service';
 import { getQueryObjectFromSearch } from '@/utils/query';
+import { searchPosts } from '@api/post.api';
 import { Input } from 'antd';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
@@ -51,7 +51,7 @@ export type NeedSearchTextProps = {
 
 const NeedSearchText: FC<NeedSearchTextProps> = ({}) => {
   return (
-    <div className="lg:px-24 lg:py-24 md:py-20 md:px-44 px-4 py-24 items-center flex justify-center flex-col-reverse lg:flex-row md:gap-28 gap-16">
+    <div className="lg:px-24 lg:py-24 md:py-20 md:px-44 px-4 py-24 items-center flex justify-center flex-col-reverse 2xl:flex-row md:gap-28 gap-16">
       <div className="xl:pt-24 w-full xl:w-1/2 relative pb-12 lg:pb-0">
         <div className="relative">
           <div className="absolute">

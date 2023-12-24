@@ -1,6 +1,6 @@
-import { getMediaUrl } from '@/services/media.service';
-import { ExtendedPostModel, PostAuthorModel } from '@/services/post.service';
 import { getFormattedDate } from '@/utils/datetime';
+import { getMediaUrl } from '@api/media.api';
+import { ExtendedPostModel, PostAuthorModel } from '@api/post.api';
 import classNames from 'classnames';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
@@ -19,8 +19,8 @@ const PostPreview: FC<PostPreviewProps> = ({
   return (
     <Link
       className={classNames(
-        'group cursor-pointer p-8 flex gap-2 rounded-md hover:shadow-2xl transition-all',
-        horizontal ? 'flex-col md:h-[200px] xl:h-[360px] md:flex-row' : 'flex-col',
+        'group cursor-pointer p-3 flex rounded-md hover:shadow-2xl transition-all bg-white',
+        horizontal ? 'flex-col md:h-[180px] xl:h-[240px] md:flex-row gap-4' : 'flex-col gap-2',
       )}
       to={`/posts/${post.slug}`}
     >

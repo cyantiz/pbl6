@@ -1,7 +1,7 @@
 import Divider from '@/components/Divider';
-import { getMediaUrl } from '@/services/media.service';
-import { ExtendedPostModel, getPopularPosts } from '@/services/post.service';
 import { FULL_DATETIME_FORMAT, getFormattedDate } from '@/utils/datetime';
+import { getMediaUrl } from '@api/media.api';
+import { ExtendedPostModel, getPopularPosts } from '@api/post.api';
 import { Icon } from '@iconify/react';
 import { FC, Fragment, useMemo } from 'react';
 import { useQuery } from 'react-query';
@@ -76,7 +76,7 @@ const PopularNew: FC<PopularNewProps> = ({
   return (
     <Link
       to={`/posts/${slug}`}
-      className="popular-news flex py-2 px-4 justify-between group cursor-pointer transition-all hover:h-48 h-24 bg-green-100 hover:text-white hover:bg-green-900 relative rounded-md overflow-hidden"
+      className="popular-news flex py-2 px-4 justify-between group cursor-pointer transition-all hover:h-48 h-24 bg-green-100 hover:text-white hover:bg-green-900 relative rounded-sm overflow-hidden"
     >
       {thumbnailUrl && (
         <img
@@ -85,8 +85,8 @@ const PopularNew: FC<PopularNewProps> = ({
         ></img>
       )}
       <div className="flex flex-col gap-1 flex-1 justify-between w-full relative z-2">
-        <h1 className="text-lg md:text-lg lg:text-xl font-bold">{title}</h1>
-        <div className="hidden group-hover:line-clamp-3">{secondaryText}</div>
+        <h1 className="text-lg md:text-lg lg:text-xl font-bold font-playfair">{title}</h1>
+        <div className="hidden group-hover:line-clamp-3 font-playfair">{secondaryText}</div>
         <div className="flex flex-col text-sm font-medium lg:flex-row">
           <span className="flex gap-2 items-center w-24">
             <Icon icon="ph:eye-bold" />

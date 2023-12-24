@@ -20,12 +20,14 @@ export default {
     'transition-all',
     'shadow-lg',
     'group',
+    'group-hover',
   ],
   theme: {
     extend: {
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
         smooch: ['Smooch Sans', 'sans-serif'],
+        playfair: ['Playfair Display', 'serif'],
       },
     },
   },

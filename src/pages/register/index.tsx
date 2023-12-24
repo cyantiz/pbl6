@@ -1,5 +1,5 @@
-import { register } from '@/services/auth.service';
 import { useAuthStore } from '@/store';
+import { register } from '@api/auth.api';
 
 import { ArrowLeftOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
@@ -49,7 +49,7 @@ const RegisterPage = () => {
           <ArrowLeftOutlined /> Back to login
         </Link>
       </div>
-      <h1 className="font-bold text-8xl font-smooch leading-[92px]">Sign up</h1>
+      <h1 className="font-bold text-5xl lg:text-6xl font-playfair mb-4">Sign up</h1>
 
       <Form form={form} name="register" onFinish={mutate}>
         <Form.Item name="name" rules={[{ required: true, message: 'Fullname is require' }]}>

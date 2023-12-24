@@ -1,6 +1,6 @@
-import { IMediaModel, getMediaUrl } from '@/services/media.service';
-import { getPostBySlug } from '@/services/post.service';
-import { Carousel } from 'antd';
+import { IMediaModel, getMediaUrl } from '@api/media.api';
+import { getPostBySlug } from '@api/post.api';
+import { Breadcrumb, Carousel } from 'antd';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -29,6 +29,29 @@ export default function PostDetailPage({}: Props) {
   return (
     <div>
       <article className="post px-4 md:px-0 max-w-2xl lg:max-w-4xl mx-auto">
+        <div className="mb-2">
+          <Breadcrumb
+            items={[
+              {
+                title: <a href="/">Home</a>,
+              },
+              {
+                title: <a href="/category-list">All categories</a>,
+              },
+              {
+                title: (
+                  <a href={`/posts/by-category?category=${post.category.slug}`}>
+                    {post.category.name}
+                  </a>
+                ),
+              },
+              {
+                title: post.title,
+              },
+            ]}
+          />
+        </div>
+
         <PostDetailHeader {...post} />
 
         <PostCarousel medias={post.medias} />

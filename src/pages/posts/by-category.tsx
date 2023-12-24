@@ -1,7 +1,7 @@
 import PostPreview from '@/components/PostPreview';
-import { getCategoryBySlug } from '@/services/category.service';
-import { getPublishedPosts } from '@/services/post.service';
 import { getQueryObjectFromSearch } from '@/utils/query';
+import { getCategoryBySlug } from '@api/category.api';
+import { getPublishedPosts } from '@api/post.api';
 import { Icon } from '@iconify/react';
 import { Button } from 'flowbite-react';
 import { useMemo } from 'react';
@@ -53,19 +53,13 @@ export default function PostListByCategoryPage({}: Props) {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center">
-        <div className="uppercase w-full flex-1 p-2">
-          <div className="w-fit font-bold text-4xl">
-            {categoryObj.name}
-            <div className="w-full h-2 bg-blue-400"></div>
-          </div>
-        </div>
+      <div className="flex w-full flex-wrap justify-center">
         {isLoadingPosts && 'Loading...'}
         {postPages && (
-          <div className="w-full px-2 lg:w-1/2 gap-8 flex flex-col">
+          <div className="w-full px-2 gap-8 flex flex-col">
             {postPages.pages.map((paginatedPosts) => {
               return paginatedPosts.values.map((post) => {
-                return <PostPreview key={post.id} {...post} />;
+                return <PostPreview key={post.id} {...post} horizontal />;
               });
             })}
           </div>

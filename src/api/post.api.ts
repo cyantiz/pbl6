@@ -103,7 +103,7 @@ export const getPostBySlug = async (slug: string): Promise<ExtendedPostModel> =>
   return $get(`${MODEL_PREFIX}/slug/${slug}`).then((resp) => resp.data);
 };
 
-export const getMyPosts = async (): Promise<ExtendedPostModel[]> => {
+export const getMyPosts = async (): Promise<PaginationResponse<ExtendedPostModel>> => {
   return $get(`${MODEL_PREFIX}/mine`).then((resp) => resp.data);
 };
 
