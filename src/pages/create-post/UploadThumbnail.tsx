@@ -19,7 +19,7 @@ export const UploadThumbnail: FC<Props> = ({ onChange }) => {
   };
 
   return (
-    <div id="fileUpload" className="max-w-md aspect-video">
+    <div id="fileUpload" className="max-w-sm aspect-video">
       <Upload.Dragger
         name="file"
         multiple={true}

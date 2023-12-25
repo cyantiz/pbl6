@@ -11,7 +11,7 @@ type Props = {
 const AdminLayout: FC<Props> = ({}) => {
   return (
     <div className="w-screen h-screen flex">
-      <div className="h-full flex flex-col bg-white">
+      <div className="h-full flex flex-col bg-white border-solid border-0 border-r border-gray-300">
         <AdminSidebar />
         <Button
           className="mt-auto mb-8 mx-2"
@@ -23,7 +23,7 @@ const AdminLayout: FC<Props> = ({}) => {
           Back to homepage
         </Button>
       </div>
-      <div className="flex-1 p-2">
+      <div className="flex-1 p-4 bg-white">
         <Outlet />
       </div>
     </div>

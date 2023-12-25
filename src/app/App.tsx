@@ -1,9 +1,11 @@
+import AppCurtain from '@/components/AppCurtain';
 import AsyncErrorBoundary from '@/components/AsyncErrorBoundary';
 import ToastContainer from '@/components/ToastContainer';
 import AdminLayout from '@/layout/Admin';
 import Auth from '@/layout/Auth';
 import Default from '@/layout/Default';
 import AdminEditorManagementPage from '@/pages/admin/accounts/edtiors';
+import AdminAccountGraphPage from '@/pages/admin/accounts/graph';
 import AdminUserManagementPage from '@/pages/admin/accounts/users';
 import CategoryListPage from '@/pages/category-list';
 import CreatePostPage from '@/pages/create-post';
@@ -49,8 +51,10 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <AsyncErrorBoundary>
+              <AppCurtain />
               <Routes>
                 {/* Auth layout pages */}
+
                 {!token?.length && (
                   <Route path="/auth" element={<Auth />}>
                     <Route index path="login" element={<LoginPage />} />
@@ -75,6 +79,7 @@ function App() {
                   <Route index element={<></>} />
                   <Route path="/admin/accounts/users" element={<AdminUserManagementPage />} />
                   <Route path="/admin/accounts/editors" element={<AdminEditorManagementPage />} />
+                  <Route path="/admin/accounts/graph" element={<AdminAccountGraphPage />} />
                 </Route>
                 <Route path="/playground" element={<Playground />} />
 

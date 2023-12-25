@@ -114,3 +114,11 @@ export const searchPosts = async (text: string): Promise<ExtendedPostModel[]> =>
     },
   }).then((resp) => resp.data);
 };
+
+export const upvotePost = async (id: number): Promise<void> => {
+  return $post(`${MODEL_PREFIX}/${id}/upvote`).then((resp) => resp.data);
+};
+
+export const downvotePost = async (id: number): Promise<void> => {
+  return $post(`${MODEL_PREFIX}/${id}/downvote`).then((resp) => resp.data);
+};

@@ -31,7 +31,7 @@ const FrontPageNews: FC = () => {
   console.log('thumbnailUrl', thumbnailUrl);
 
   return (
-    <div className="flex justify-center flex-col flex-1 gap-2 h-min pl-2">
+    <div className="flex justify-center flex-col flex-1 gap-2 h-min">
       <div className="relative flex flex-row xl:flex-col gap-2 justify-between w-full z-[2]">
         <h1 className="w-full text-start text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-bold drop-shadow-lg text-black leading-[110%]">
           {title}

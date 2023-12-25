@@ -1,5 +1,7 @@
 import { useAuthStore } from '@/store';
-import { Button, Modal } from 'flowbite-react';
+import { FileSearchOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import { Modal } from 'flowbite-react';
 import { FC } from 'react';
 import { useDisclosure } from 'react-use-disclosure';
 import { shallow } from 'zustand/shallow';
@@ -23,7 +25,10 @@ const PreviewPost: FC<PreviewPostProps> = ({ title, content }) => {
 
   return (
     <>
-      <Button onClick={openModal}>Preview</Button>
+      <Button onClick={openModal}>
+        <FileSearchOutlined />
+        Preview
+      </Button>
       <Modal show={isModalOpen} onClose={closeModal} size="7xl">
         <Modal.Header>Preview</Modal.Header>
         <Modal.Body>

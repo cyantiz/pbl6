@@ -28,8 +28,8 @@ export default function PostDetailPage({}: Props) {
 
   return (
     <div>
-      <article className="post px-4 md:px-0 max-w-2xl lg:max-w-4xl mx-auto">
-        <div className="mb-2">
+      <article className="post px-4 md:px-0 max-w-2xl lg:max-w-3xl mx-auto">
+        <div className="mb-8">
           <Breadcrumb
             items={[
               {

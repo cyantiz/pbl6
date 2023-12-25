@@ -1,11 +1,11 @@
 import { IMediaModel, getMediaUrl } from '@/api/media.api';
 import { PostStatusColorMap } from '@/utils/constant';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { PostStatus, getMyPosts } from '@api/post.api';
 import { Button, Image, Pagination, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 type Props = {};
 
@@ -87,6 +87,7 @@ export default function MyPostsPage({}: Props) {
   const { data: posts, isLoading: isLoadingPosts } = useQuery('my-posts', () => getMyPosts(), {
     refetchOnWindowFocus: false,
   });
+  const navigate = useNavigate();
 
   if (!posts || !posts?.values) return <div>Loading...</div>;
 
@@ -95,8 +96,12 @@ export default function MyPostsPage({}: Props) {
       {isLoadingPosts && 'Loading...'}
       {posts && (
         <>
-          <div className="w-full text-center mb-4">
-            <h1>My posts</h1>
+          <div className="w-full flex justify-between mb-4">
+            <h2 className="font-playfair">My posts</h2>
+            <Button type="primary" onClick={() => navigate('/create-post')}>
+              <PlusCircleOutlined />
+              Create new post
+            </Button>
           </div>
           <div>
             <Table

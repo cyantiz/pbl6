@@ -1,5 +1,6 @@
 import Divider from '@/components/Divider';
 import { FULL_DATETIME_FORMAT, getFormattedDate } from '@/utils/datetime';
+import { FireTwoTone } from '@ant-design/icons';
 import { getMediaUrl } from '@api/media.api';
 import { ExtendedPostModel, getPopularPosts } from '@api/post.api';
 import { Icon } from '@iconify/react';
@@ -7,7 +8,7 @@ import { FC, Fragment, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
-const PopularNews: FC = () => {
+const HomePageHotNews: FC = () => {
   const { isLoading, data: popularPosts } = useQuery<ExtendedPostModel[]>(
     'popular-posts',
     () => getPopularPosts({ limit: 20 }),
@@ -19,15 +20,14 @@ const PopularNews: FC = () => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h1 className="text-center text-xl font-bold text-gray-400 md:text-right uppercase">
-        Popular news
+    <div className="flex flex-col gap-1">
+      <h1 className="text-center text-xl font-bold text-orange-500 md:text-right uppercase">
+        <FireTwoTone twoToneColor="#FF8A4C" /> HOT NOW
       </h1>
-      <br />
 
       <div
         style={{
-          height: 'calc(100vh - 280px)',
+          height: 'calc(100vh - 152px)',
           overflowY: 'auto',
         }}
       >
@@ -102,4 +102,4 @@ const PopularNew: FC<PopularNewProps> = ({
   );
 };
 
-export default PopularNews;
+export default HomePageHotNews;

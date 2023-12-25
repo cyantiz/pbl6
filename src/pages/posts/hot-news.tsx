@@ -24,7 +24,7 @@ const HotNewsPostsPage: FC<HotNewsPostsPageProps> = ({}) => {
   return (
     <>
       {posts && (
-        <div px-2>
+        <div>
           <React.Fragment>
             <Banner />
             <div>
@@ -62,7 +62,10 @@ const TwoFirstPosts: FC<TwoFirstPostsProps> = ({ firstPost, secondPost }) => {
     <>
       <div className="grid gap-10 md:grid-cols-2 lg:gap-10">
         {posts.map((post) => (
-          <div className="p-2 group cursor-pointer bg-white rounded-md hover:shadow-2xl">
+          <div
+            key={post.id}
+            className="p-2 group cursor-pointer bg-white rounded-md hover:shadow-2xl transition-all duration-500"
+          >
             <div className="overflow-hidden rounded-md transition-all dark:bg-gray-800">
               <Link
                 className="relative block aspect-video overflow-hidden"
@@ -72,7 +75,7 @@ const TwoFirstPosts: FC<TwoFirstPostsProps> = ({ firstPost, secondPost }) => {
                   alt="Thumbnail"
                   decoding="async"
                   data-nimg="fill"
-                  className="object-cover transition-all w-full h-full hover:scale-105"
+                  className="object-cover transition-all ease-out duration-700 w-full h-full hover:scale-105"
                   sizes="(max-width: 768px) 30vw, 33vw"
                   src={getMediaUrl(post.thumbnailMedia ?? post.medias?.at(0))}
                 />

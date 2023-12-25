@@ -31,7 +31,7 @@ export default function PostListByCategoryPage({}: Props) {
     queryFn: ({ pageParam = 1 }) =>
       getPublishedPosts({
         page: pageParam,
-        pageSize: 3,
+        pageSize: 4,
         category: query.category as string,
       }),
     getNextPageParam: (lastPage) => {

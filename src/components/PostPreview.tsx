@@ -19,7 +19,7 @@ const PostPreview: FC<PostPreviewProps> = ({
   return (
     <Link
       className={classNames(
-        'group cursor-pointer p-3 flex rounded-md hover:shadow-2xl transition-all bg-white',
+        'group cursor-pointer p-3 flex rounded-md hover:shadow-2xl transition-all duration-500 bg-white',
         horizontal ? 'flex-col md:h-[180px] xl:h-[240px] md:flex-row gap-4' : 'flex-col gap-2',
       )}
       to={`/posts/${post.slug}`}
@@ -35,7 +35,7 @@ const PostPreview: FC<PostPreviewProps> = ({
           loading="lazy"
           decoding="async"
           data-nimg="fill"
-          className="object-cover transition-all w-full h-full inset-0 group-hover:scale-105"
+          className="object-cover transition-all ease-out duration-700 w-full h-full inset-0 group-hover:scale-105"
           src={getMediaUrl(post?.thumbnailMedia ?? post.medias?.at(0))}
         />
       </div>

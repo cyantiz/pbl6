@@ -1,4 +1,4 @@
-import { AppstoreOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { BookOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -28,18 +28,9 @@ const items: Array<MenuItemWithChildren> = [
   getItem('Accounts', '/admin/accounts', <UserOutlined />, [
     getItem('Users', '/admin/accounts/users'),
     getItem('Editors', '/admin/accounts/editors'),
+    getItem('Graph', '/admin/accounts/graph'),
   ]),
-  getItem('Categories', 'sub2', <AppstoreOutlined />, [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-  ]),
-  getItem('Posts', 'sub4', <SettingOutlined />, [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-    getItem('Option 11', '11'),
-    getItem('Option 12', '12'),
-  ]),
+  getItem('Posts', '/admin/posts', <BookOutlined />, [getItem('List', '/admin/posts/list')]),
 ];
 
 // submenu keys of first level

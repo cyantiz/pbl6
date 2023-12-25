@@ -1,7 +1,8 @@
+import { CloudUploadOutlined, SaveOutlined } from '@ant-design/icons';
 import { getAllCategories } from '@api/category.api';
 import { PostStatus, createPost } from '@api/post.api';
-import { Breadcrumb, Button, Form, Input, Select } from 'antd';
-import { FC, useState } from 'react';
+import { Breadcrumb, Button, Form, FormInstance, Input, Select } from 'antd';
+import { FC, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import Swal from 'sweetalert2';
 import PreviewPost from './PreviewPost';
@@ -22,22 +23,18 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
   const { data: categories } = useQuery('get-categories', () => getAllCategories(), {
     refetchOnWindowFocus: false,
   });
+  const formRef = useRef<FormInstance>(null);
 
-  const [title, setTitle] = useState('');
-  const [categoryId, setCategoryId] = useState<number | undefined>(undefined);
   const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const onSubmit = async ({ title, categoryId }: IFormInputs) => {
-    console.log('title', title);
-    console.log('categoryId', categoryId);
-
     if (!thumbnailFile) {
       Swal.fire({
         title: 'Error',
         text: 'Thumbnail is required',
         icon: 'error',
-        // on button click -> redirect to main page
       }).then(() => {
         window.location.replace('/posts/mine');
       });
@@ -45,13 +42,25 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
       return;
     }
 
-    const post = await mutateCreatePost({
+    mutateCreatePost({
       title,
       body: content,
       categoryId,
       thumbnailFile: thumbnailFile,
       status: PostStatus.PUBLISHED,
     });
+  };
+
+  const handleSaveDraft = async () => {
+    try {
+      console.log('save draft');
+      formRef.current && (await formRef.current.validateFields());
+      console.log(formRef.current?.getFieldsValue());
+    } catch (error: any) {
+      throw {
+        message: error?.errorFields?.at(0)?.errors?.at(0) ?? 'Please fill all required fields',
+      };
+    }
   };
 
   const { mutate: mutateCreatePost, isLoading: isLoadingCreatePost } = useMutation(createPost, {
@@ -75,23 +84,10 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
   });
 
   return (
-    <>
-      <Breadcrumb
-        items={[
-          {
-            title: 'Home',
-          },
-          {
-            title: <a href="">Editor</a>,
-          },
-          {
-            title: 'Create Post',
-          },
-        ]}
-      />
-
+    <div>
       <Form
-        className="flex flex-col gap-6 max-w-3xl mx-auto"
+        ref={formRef}
+        className="create-post-form flex flex-col gap-2 max-w-3xl mx-auto"
         layout="vertical"
         onFinish={onSubmit}
         onFinishFailed={() => {
@@ -102,20 +98,29 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
           });
         }}
       >
+        <Breadcrumb
+          items={[
+            {
+              title: 'Home',
+            },
+            {
+              title: <a href="">Editor</a>,
+            },
+            {
+              title: 'Create Post',
+            },
+          ]}
+        />
+
+        <h1 className="create-post-form__title font-playfair">Create new post</h1>
+
         <div>
           <Form.Item<string>
             label="Title"
             name="title"
             rules={[{ required: true, message: 'Please input title!' }]}
           >
-            <Input
-              size="large"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-              placeholder="Title"
-            />
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
           </Form.Item>
         </div>
 
@@ -130,15 +135,17 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
               className="w-96"
               id="categoryId"
               defaultActiveFirstOption={true}
-              value={categoryId}
-              onChange={(opt) => {
-                setCategoryId(opt as number);
-              }}
               options={categories?.map((category) => ({
                 label: category.name,
                 value: category.id,
               }))}
             />
+          </Form.Item>
+        </div>
+
+        <div>
+          <Form.Item label="Secondary text (for previewing)" name="secondaryText" required={false}>
+            <Input.TextArea />
           </Form.Item>
         </div>
 
@@ -162,14 +169,26 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
 
         <QuillBody content={content} onChange={(newValue) => setContent(newValue)} />
 
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-start gap-4">
           <PreviewPost title={title} content={content} />
-          <Button htmlType="submit" size="large" loading={isLoadingCreatePost}>
-            Submit
+          <Button
+            onClick={async (e) => {
+              e.preventDefault();
+              handleSaveDraft();
+            }}
+            type="dashed"
+            loading={isLoadingCreatePost}
+          >
+            <SaveOutlined />
+            Save to Draft
+          </Button>
+          <Button htmlType="submit" type="primary" loading={isLoadingCreatePost}>
+            <CloudUploadOutlined />
+            Publish
           </Button>
         </div>
       </Form>
-    </>
+    </div>
   );
 };
 

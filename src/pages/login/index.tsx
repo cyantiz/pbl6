@@ -31,6 +31,7 @@ const LoginPage: FC<Props> = ({}) => {
     onSuccess: (data) => {
       console.log(data);
       setToken(data.accessToken);
+      location.href = '/';
     },
     onError: (error) => {
       Promise.reject(error);
