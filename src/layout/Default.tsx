@@ -1,4 +1,5 @@
 // import Navbar from '@/components/layout-element/Navbar';
+import Footer from '@/components/layout-element/Default/Footer';
 import Navbar from '@/components/layout-element/Default/Navbar';
 import Sidebar from '@/components/layout-element/Default/Sidebar';
 import TopContributors from '@/components/layout-element/Default/Sidebar/TopContributors';
@@ -21,6 +22,7 @@ const Default: FC<Props> = ({}) => {
           <Outlet />
         </div>
       </div>
+      <Footer />
     </>
   );
 };

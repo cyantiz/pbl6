@@ -43,6 +43,21 @@ export type ExtendedPostModel = IPostModel & {
   medias: IMediaModel[];
 };
 
+type CommentAuthorModel = PostAuthorModel;
+
+export interface ICommentModel {
+  id: number;
+  text: string;
+  postId?: number;
+  parentCommentId?: number;
+  upvote: number;
+  downvote?: number;
+  createdAt: Date;
+  parentComment?: ICommentModel;
+  childComments?: ICommentModel[];
+  author: CommentAuthorModel;
+}
+
 export type GetPublishedPostsQuery = {
   pageSize?: number;
   page?: number;
@@ -121,4 +136,25 @@ export const upvotePost = async (id: number): Promise<void> => {
 
 export const downvotePost = async (id: number): Promise<void> => {
   return $post(`${MODEL_PREFIX}/${id}/downvote`).then((resp) => resp.data);
+};
+
+export const getPostComments = async (params: {
+  postId: number;
+  page: number;
+  pageSize: number;
+}): Promise<PaginationResponse<ICommentModel>> => {
+  const { postId, page, pageSize } = params;
+  return $get(`${MODEL_PREFIX}/${postId}/comments`, {
+    params: {
+      page,
+      pageSize,
+    },
+  }).then((resp) => resp.data);
+};
+
+export const commentToPost = async (params: { postId: number; text: string }): Promise<void> => {
+  const { postId, text } = params;
+  return $post(`${MODEL_PREFIX}/${postId}/comments`, {
+    comment: text,
+  }).then((resp) => resp.data);
 };

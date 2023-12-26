@@ -11,7 +11,7 @@ export const getFormattedDate = (
   const today = moment();
 
   if (moment(date).isSame(today, 'day')) {
-    return moment(date).format('HH:mm');
+    return 'Today ' + moment(date).format('HH:mm');
   }
 
   if (moment(date).isSame(today.subtract(1, 'day'), 'day')) {

@@ -1,5 +1,6 @@
 import AppCurtain from '@/components/AppCurtain';
 import AsyncErrorBoundary from '@/components/AsyncErrorBoundary';
+import ChatBot from '@/components/Chatbot';
 import ToastContainer from '@/components/ToastContainer';
 import AdminLayout from '@/layout/Admin';
 import Auth from '@/layout/Auth';
@@ -52,6 +53,7 @@ function App() {
           <BrowserRouter>
             <AsyncErrorBoundary>
               <AppCurtain />
+              <ChatBot />
               <Routes>
                 {/* Auth layout pages */}
 

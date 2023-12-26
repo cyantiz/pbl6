@@ -69,6 +69,7 @@ const Navbar = () => {
               style={{ zIndex: 99999 }}
             >
               <LeftMenu mode={'inline'} />
+              <br />
               <RightMenu mode={'inline'} />
             </Drawer>
           </div>

@@ -1,6 +1,7 @@
+import PostCommentSection from '@/components/Comment/PostCommentSection';
 import { IMediaModel, getMediaUrl } from '@api/media.api';
 import { getPostBySlug } from '@api/post.api';
-import { Breadcrumb, Carousel } from 'antd';
+import { Breadcrumb, Carousel, Divider } from 'antd';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -58,6 +59,8 @@ export default function PostDetailPage({}: Props) {
         <div className="post__body prose dark:prose-dark">
           <div dangerouslySetInnerHTML={{ __html: post.body }} />
         </div>
+        <Divider />
+        <PostCommentSection postId={post.id} />
       </article>
     </div>
   );

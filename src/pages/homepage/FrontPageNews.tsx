@@ -27,9 +27,6 @@ const FrontPageNews: FC = () => {
   const { title, thumbnailMedia, secondaryText, medias } = frontPagePost;
   const thumbnailUrl = getMediaUrl(thumbnailMedia ?? medias?.at(0));
 
-  console.log('frontPagePost', frontPagePost);
-  console.log('thumbnailUrl', thumbnailUrl);
-
   return (
     <div className="flex justify-center flex-col flex-1 gap-2 h-min">
       <div className="relative flex flex-row xl:flex-col gap-2 justify-between w-full z-[2]">

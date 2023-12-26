@@ -30,6 +30,7 @@ const HomePageHotNews: FC = () => {
           height: 'calc(100vh - 152px)',
           overflowY: 'auto',
         }}
+        className="max-md:!h-auto"
       >
         <div className="flex flex-col gap-2 lg:gap-1">
           {popularPosts?.map((post, index, arr) => (
