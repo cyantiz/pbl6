@@ -49,9 +49,9 @@ function App() {
       }}
     >
       <StyleProvider hashPriority="high">
-        <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <AsyncErrorBoundary>
+        <BrowserRouter>
+          <AsyncErrorBoundary>
+            <QueryClientProvider client={queryClient}>
               <AppCurtain />
               <ChatBot />
               <Routes>
@@ -88,10 +88,10 @@ function App() {
                 {/* Redirect unknown page to default page */}
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
-            </AsyncErrorBoundary>
-          </BrowserRouter>
-          <ToastContainer />
-        </QueryClientProvider>
+            </QueryClientProvider>
+          </AsyncErrorBoundary>
+        </BrowserRouter>
+        <ToastContainer />
       </StyleProvider>
     </ConfigProvider>
   );

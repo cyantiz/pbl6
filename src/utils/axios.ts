@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import configs from '../configs';
 
 const axiosClient = axios.create({
@@ -17,6 +17,15 @@ axiosClient.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error),
+);
+
+axiosClient.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => {
+    const resp = error.response as any;
+    const respErrorMessage = resp?.data?.error ?? resp?.data?.message ?? 'UNKNOWN_ERROR';
+    throw new Error(respErrorMessage);
+  },
 );
 
 export function $post<T = any, R = AxiosResponse<T>, D = any>(
@@ -38,6 +47,7 @@ export function $get<T = any, R = AxiosResponse<T>, D = any>(
   try {
     return axiosClient.get<T, R>(url, config);
   } catch (error) {
+    console.log('here here');
     return Promise.reject(error);
   }
 }
