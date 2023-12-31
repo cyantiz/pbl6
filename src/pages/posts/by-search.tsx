@@ -38,13 +38,16 @@ export default function PostListBySearchPage({}: Props) {
 
   if (error) {
     console.log('case error');
-    const errorMessage = (error as Error).message as SearchErrorType;
-    return <PleaseSearchAgain type={errorMessage} />;
+    const errorMessage = (error as Error).message;
+    if (['NOT_SPORT_RELEVANT', 'NEED_PROVIDE_TEXT'].includes(errorMessage)) {
+      return <PleaseSearchAgain type={errorMessage as SearchErrorType} />;
+    }
+
+    return <PleaseSearchAgain type={'UNKNOWN_ERR'} />;
   }
 
   if (!posts && !isLoadingPosts) {
-    const errorMessage = (error as Error).message as SearchErrorType;
-    return <PleaseSearchAgain type={errorMessage} />;
+    return <PleaseSearchAgain type={'UNKNOWN_ERR'} />;
   }
 
   return (

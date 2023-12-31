@@ -33,3 +33,22 @@ export const getChatbotResponse = async (message: string): Promise<string | stri
 
   return response.result;
 };
+
+export const getGeneratedContentFromTitle = async (title: string): Promise<string> => {
+  // if (process.env.NODE_ENV === 'development') {
+  //   await new Promise((resolve) => setTimeout(resolve, 1000));
+  //   return 'Cạnh tranh giữa Messi-Ronaldo là cuộc so tài bóng đá giữa tiền đạo người Argentina Lionel Messi và tiền đạo người Bồ Đào Nha Cristiano Ronaldo trong giai đoạn từ 2008 đến nay trên cả phương diện cá nhân lẫn tập thể.';
+  // }
+
+  const GENERATE_FROM_TITLE_URL = import.meta.env.VITE_GENERATE_FROM_TITLE_URL;
+
+  const res = await axios
+    .post<{ response: string }>(`${GENERATE_FROM_TITLE_URL}?prompt=${title}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((res) => res.data);
+
+  return res.response;
+};

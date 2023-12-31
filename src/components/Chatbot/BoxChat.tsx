@@ -1,4 +1,4 @@
-import { IChatbotMessageModel, SuggestionPostPattern, getChatbotResponse } from '@/api/chatbot.api';
+import { IChatbotMessageModel, SuggestionPostPattern, getChatbotResponse } from '@/api/ai.api';
 import { CloseOutlined } from '@ant-design/icons';
 import ChatBotAvatarImg from '@assets/img/chat-bot-avatar.jpeg';
 import { Button, Divider } from 'antd';

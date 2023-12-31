@@ -1,4 +1,4 @@
-import { IChatbotMessageModel, SuggestionPostPattern } from '@/api/chatbot.api';
+import { IChatbotMessageModel, SuggestionPostPattern } from '@/api/ai.api';
 import ChatBotAvatarImg from '@assets/img/chat-bot-avatar.jpeg';
 import { Avatar } from 'antd';
 import { FC } from 'react';

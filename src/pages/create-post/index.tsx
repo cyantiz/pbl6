@@ -1,7 +1,10 @@
+import { getGeneratedContentFromTitle } from '@/api/ai.api';
 import { CloudUploadOutlined, SaveOutlined } from '@ant-design/icons';
 import { getAllCategories } from '@api/category.api';
 import { PostStatus, createPost } from '@api/post.api';
-import { Breadcrumb, Button, Form, FormInstance, Input, Select } from 'antd';
+import { Icon } from '@iconify/react';
+import { Breadcrumb, Button, Form, FormInstance, Input, Select, Tooltip } from 'antd';
+import classNames from 'classnames';
 import { FC, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import Swal from 'sweetalert2';
@@ -83,6 +86,20 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
     },
   });
 
+  const { mutate: mutateGenerateContentFromTitle, isLoading: isLoadingGenerateContentFromTitle } =
+    useMutation(() => getGeneratedContentFromTitle(title), {
+      onSuccess: (data: string) => {
+        setContent(data);
+      },
+      onError: (error: any) => {
+        Swal.fire({
+          title: 'Error',
+          text: error?.response.data.error ?? 'Something went wrong, please try again later',
+          icon: 'error',
+        });
+      },
+    });
+
   return (
     <div>
       <Form
@@ -123,6 +140,46 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
             <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
           </Form.Item>
         </div>
+        <div>
+          <Tooltip
+            title={title.split(' ').length > 6 ? '' : 'Title must be at least 8 words to generate'}
+          >
+            <Button
+              disabled={!(title.split(' ').length > 6)}
+              onClick={() => mutateGenerateContentFromTitle()}
+              loading={isLoadingGenerateContentFromTitle}
+            >
+              <div
+                className={classNames([
+                  isLoadingGenerateContentFromTitle ? 'opacity-0' : '',
+                  'flex gap-2 items-center',
+                ])}
+              >
+                <Icon icon="ph:magic-wand" />
+                Generate content from title
+              </div>
+            </Button>
+          </Tooltip>
+        </div>
+        <QuillBody content={content} onChange={(newValue) => setContent(newValue)} />
+
+        <div>
+          <p className="pb-2 m-0">Thumbnail</p>
+          {!thumbnailFile && (
+            <UploadThumbnail
+              onChange={(file) => {
+                if (!file) return;
+                setThumbnailFile(file);
+              }}
+            />
+          )}
+          {thumbnailFile && (
+            <PreviewThumbnail
+              file={thumbnailFile}
+              onDeleteBtnClick={() => setThumbnailFile(null)}
+            />
+          )}
+        </div>
 
         <div>
           <Form.Item
@@ -143,31 +200,11 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
           </Form.Item>
         </div>
 
-        <div>
+        <div className="mb-4">
           <Form.Item label="Secondary text (for previewing)" name="secondaryText" required={false}>
             <Input.TextArea />
           </Form.Item>
         </div>
-
-        <div>
-          <p className="pb-2 m-0">Thumbnail</p>
-          {!thumbnailFile && (
-            <UploadThumbnail
-              onChange={(file) => {
-                if (!file) return;
-                setThumbnailFile(file);
-              }}
-            />
-          )}
-          {thumbnailFile && (
-            <PreviewThumbnail
-              file={thumbnailFile}
-              onDeleteBtnClick={() => setThumbnailFile(null)}
-            />
-          )}
-        </div>
-
-        <QuillBody content={content} onChange={(newValue) => setContent(newValue)} />
 
         <div className="flex justify-start gap-4">
           <PreviewPost title={title} content={content} />
