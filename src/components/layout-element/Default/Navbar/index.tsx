@@ -1,4 +1,4 @@
-import { MenuOutlined } from '@ant-design/icons';
+import { FileImageOutlined, MenuOutlined } from '@ant-design/icons';
 import { Button, Drawer, Input, Layout } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -37,6 +37,14 @@ const Navbar = () => {
                   onSearch={(value) => {
                     window.location.replace(`/posts/by-search?searchText=${value}`);
                   }}
+                  suffix={
+                    <FileImageOutlined
+                      className="text-gray-400 hover:text-blue-500 cursor-pointer"
+                      onClick={() => {
+                        window.location.replace(`/posts/by-search-image`);
+                      }}
+                    />
+                  }
                 />
               </div>
             </div>

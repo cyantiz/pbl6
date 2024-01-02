@@ -122,10 +122,22 @@ export const getMyPosts = async (): Promise<PaginationResponse<ExtendedPostModel
   return $get(`${MODEL_PREFIX}/mine`).then((resp) => resp.data);
 };
 
-export const searchPosts = async (text: string): Promise<ExtendedPostModel[]> => {
-  return $get(`${MODEL_PREFIX}/search`, {
+export const searchPostsByText = async (text: string): Promise<ExtendedPostModel[]> => {
+  return $get(`${MODEL_PREFIX}/search-text`, {
     params: {
       searchText: text,
+    },
+  }).then((resp) => resp.data);
+};
+
+export const searchPostsByImage = async (image: File): Promise<ExtendedPostModel[]> => {
+  const formData = new FormData();
+
+  formData.append('filename', image);
+
+  return $post(`${MODEL_PREFIX}/search-image`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
     },
   }).then((resp) => resp.data);
 };

@@ -1,4 +1,4 @@
-import { searchPosts } from '@/api/post.api';
+import { searchPostsByText } from '@/api/post.api';
 import PostPreview from '@/components/PostPreview';
 import { getQueryObjectFromSearch } from '@/utils/query';
 import { Input, Spin } from 'antd';
@@ -28,7 +28,7 @@ export default function PostListBySearchPage({}: Props) {
     data: posts,
     isLoading: isLoadingPosts,
     error,
-  } = useQuery('posts-by-search', () => searchPosts(searchText), {
+  } = useQuery('posts-by-search', () => searchPostsByText(searchText), {
     refetchOnWindowFocus: false,
     retry: false,
   });

@@ -17,6 +17,7 @@ import PostListPage from '@/pages/posts';
 import PostDetailPage from '@/pages/posts/[_slug]';
 import PostListByCategoryPage from '@/pages/posts/by-category';
 import PostListBySearchPage from '@/pages/posts/by-search';
+import PostsBySearchImage from '@/pages/posts/by-search-image';
 import HotNewsPostsPage from '@/pages/posts/hot-news';
 import MyPostsPage from '@/pages/posts/mine';
 import RegisterPage from '@/pages/register';
@@ -73,6 +74,7 @@ function App() {
                   <Route path="/posts/mine" element={<MyPostsPage />} />
                   <Route path="/posts/by-category" element={<PostListByCategoryPage />} />
                   <Route path="/posts/by-search" element={<PostListBySearchPage />} />
+                  <Route path="/posts/by-search-image" element={<PostsBySearchImage />} />
                   <Route path="/posts/hot-news" element={<HotNewsPostsPage />} />
                   <Route path="/create-post" element={<CreatePostPage />} />
                 </Route>
