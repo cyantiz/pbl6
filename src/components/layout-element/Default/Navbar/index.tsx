@@ -32,7 +32,7 @@ const Navbar = () => {
               <div className="w-[540px] ml-4 mr-2 font-sans items-center flex">
                 <Input.Search
                   size="large"
-                  placeholder="Search..."
+                  placeholder="Tìm kiếm điều gì đó..."
                   // size=""
                   onSearch={(value) => {
                     window.location.replace(`/posts/by-search?searchText=${value}`);

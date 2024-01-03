@@ -11,11 +11,11 @@ export const getFormattedDate = (
   const today = moment();
 
   if (moment(date).isSame(today, 'day')) {
-    return 'Today ' + moment(date).format('HH:mm');
+    return 'Hôm nay ' + moment(date).format('HH:mm');
   }
 
   if (moment(date).isSame(today.subtract(1, 'day'), 'day')) {
-    return `Yesterday ${moment(date).format('HH:mm')}`;
+    return `Hôm qua ${moment(date).format('HH:mm')}`;
   }
 
   return moment(date).format(format);

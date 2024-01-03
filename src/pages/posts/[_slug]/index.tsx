@@ -1,8 +1,10 @@
+import { getGeoLocation } from '@/api/user.api';
 import PostCommentSection from '@/components/Comment/PostCommentSection';
+import { getUserId } from '@/utils/common';
 import { IMediaModel, getMediaUrl } from '@api/media.api';
-import { getPostBySlug } from '@api/post.api';
+import { getPostBySlug, readPost } from '@api/post.api';
 import { Breadcrumb, Carousel, Divider } from 'antd';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { PostDetailHeader } from './Header';
@@ -22,6 +24,22 @@ export default function PostDetailPage({}: Props) {
       refetchOnWindowFocus: false,
     },
   );
+
+  useEffect(() => {
+    const markReadPost = async () => {
+      if (!post) return;
+
+      const { IPv4 } = await getGeoLocation();
+      const userId = getUserId();
+
+      readPost({
+        postId: post.id,
+        IP: IPv4 ? IPv4 : undefined,
+        userId: userId ? userId : undefined,
+      });
+    };
+    markReadPost();
+  }, [post]);
 
   if (isLoadingPost || !post) return <div>Loading...</div>;
 

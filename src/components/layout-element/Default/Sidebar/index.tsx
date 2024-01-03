@@ -10,22 +10,22 @@ const sidebarItems = [
   {
     id: '/',
     icon: <HomeOutlined />,
-    title: 'Home',
+    title: 'Trang chủ',
   },
   {
     id: '/posts',
     icon: <HourglassOutlined />,
-    title: 'Latest News',
+    title: 'Tin gần đây',
   },
   {
     id: '/posts/hot-news',
     icon: <FireOutlined />,
-    title: 'Hot News',
+    title: 'Tin hot!',
   },
   {
     id: '/category-list',
     icon: <AppstoreOutlined />,
-    title: 'All categories',
+    title: 'Chuyên mục',
   },
 ];
 

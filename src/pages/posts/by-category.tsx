@@ -41,7 +41,7 @@ export default function PostListByCategoryPage({}: Props) {
   });
 
   const reachedEnd = useMemo(
-    () => !postPages?.pages?.[postPages.pages.length - 1]?.nextPage,
+    () => !postPages?.pages?.[postPages.pages?.length - 1]?.nextPage,
     [postPages],
   );
 
@@ -57,7 +57,7 @@ export default function PostListByCategoryPage({}: Props) {
         {isLoadingPosts && 'Loading...'}
         {postPages && (
           <div className="w-full px-2 gap-8 flex flex-col">
-            {postPages.pages.map((paginatedPosts) => {
+            {postPages?.pages?.map((paginatedPosts) => {
               return paginatedPosts.values.map((post) => {
                 return <PostPreview key={post.id} {...post} horizontal />;
               });

@@ -97,10 +97,10 @@ export default function MyPostsPage({}: Props) {
       {posts && (
         <>
           <div className="w-full flex justify-between mb-4">
-            <h2 className="font-playfair">My posts</h2>
+            <h2 className="font-playfair">Bài viết của tôi</h2>
             <Button type="primary" onClick={() => navigate('/create-post')}>
               <PlusCircleOutlined />
-              Create new post
+              Tạo bài viết mới
             </Button>
           </div>
           <div>

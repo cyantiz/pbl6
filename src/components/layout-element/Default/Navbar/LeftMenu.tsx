@@ -3,22 +3,22 @@ import { Menu, MenuProps } from 'antd';
 import { Link } from 'react-router-dom';
 const NAVBAR_LINKS = [
   {
-    name: 'Home',
+    name: 'Trang chủ',
     path: '/',
     icon: <HomeOutlined />,
   },
   {
-    name: 'Category',
+    name: 'Chuyên mục',
     path: '/category-list',
     icon: <AppstoreOutlined />,
   },
   {
-    name: 'Hot News',
+    name: 'Tin hot!',
     path: '/posts/hot-news',
     icon: <FireOutlined />,
   },
   {
-    name: 'Latest News',
+    name: 'Tin gần đây',
     path: '/posts',
     icon: <StockOutlined />,
   },

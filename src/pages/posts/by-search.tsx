@@ -82,12 +82,12 @@ export type PleaseSearchAgainProps = {
 };
 
 const MESSAGE_BY_TYPE: Record<SearchErrorType, [string, string]> = {
-  UNKNOWN_ERR: ['Unknown error', 'Please try again later!'],
-  NEED_PROVIDE_TEXT: [
-    "Wait, you haven't enter anything!",
-    'Please enter your search information in the search box and try again!',
+  UNKNOWN_ERR: ['Có lỗi gì đó đã xảy ra!', 'Xin vui lòng thử lại sau!'],
+  NEED_PROVIDE_TEXT: ['Đợi đã, bạn chưa gõ gì mà!', 'Làm ơn điền nội dung bạn muốn tìm kiếm!'],
+  NOT_SPORT_RELEVANT: [
+    'Nội dung tìm kiếm của bạn có vẻ không liên quan đến thể thao!',
+    'Xin thử lại!',
   ],
-  NOT_SPORT_RELEVANT: ['Your search is not relevant to sport', 'Please try again!'],
 };
 const PleaseSearchAgain: FC<PleaseSearchAgainProps> = ({ type = 'UNKNOWN_ERR' }) => {
   return (
@@ -99,7 +99,7 @@ const PleaseSearchAgain: FC<PleaseSearchAgainProps> = ({ type = 'UNKNOWN_ERR' })
               <h1 className="my-2 text-gray-800 font-bold text-2xl">{MESSAGE_BY_TYPE[type][0]}</h1>
               <p className="my-2 text-gray-800">{MESSAGE_BY_TYPE[type][1]}</p>
               <Input.Search
-                placeholder="What do you want to read?"
+                placeholder="Bạn muốn tìm gì?"
                 enterButton="Search"
                 size="large"
                 onSearch={(value) => {

@@ -118,22 +118,22 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
         <Breadcrumb
           items={[
             {
-              title: 'Home',
+              title: 'Trang chủ',
             },
             {
-              title: <a href="">Editor</a>,
+              title: <a href="">Biên tập</a>,
             },
             {
-              title: 'Create Post',
+              title: 'Tạo bài viết',
             },
           ]}
         />
 
-        <h1 className="create-post-form__title font-playfair">Create new post</h1>
+        <h1 className="create-post-form__title font-playfair">Tạo bài viết mới</h1>
 
         <div>
           <Form.Item<string>
-            label="Title"
+            label="Tiêu đề"
             name="title"
             rules={[{ required: true, message: 'Please input title!' }]}
           >
@@ -156,7 +156,7 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
                 ])}
               >
                 <Icon icon="ph:magic-wand" />
-                Generate content from title
+                Sinh nội dung từ tiêu đề!
               </div>
             </Button>
           </Tooltip>
@@ -164,7 +164,7 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
         <QuillBody content={content} onChange={(newValue) => setContent(newValue)} />
 
         <div>
-          <p className="pb-2 m-0">Thumbnail</p>
+          <p className="pb-2 m-0">Ảnh xem trước</p>
           {!thumbnailFile && (
             <UploadThumbnail
               onChange={(file) => {
@@ -183,10 +183,10 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
 
         <div>
           <Form.Item
-            label="Category"
+            label="Chuyên mục"
             name="categoryId"
             required
-            rules={[{ required: true, message: 'Please select category!' }]}
+            rules={[{ required: true, message: 'Xin hãy chọn chuyên mục!' }]}
           >
             <Select
               className="w-96"
@@ -201,7 +201,7 @@ const CreatePostPage: FC<CreatePostPageProps> = ({}) => {
         </div>
 
         <div className="mb-4">
-          <Form.Item label="Secondary text (for previewing)" name="secondaryText" required={false}>
+          <Form.Item label="Nội dung xem trước" name="secondaryText" required={false}>
             <Input.TextArea />
           </Form.Item>
         </div>

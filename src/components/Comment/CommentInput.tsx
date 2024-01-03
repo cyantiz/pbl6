@@ -62,7 +62,7 @@ const CommentInput: FC<CommentInputProps> = ({ postId, afterComment }) => {
       <Form.Item name="comment" className="flex-1 !mb-2">
         <Input.TextArea
           className="!bg-gray-100"
-          placeholder="Enter your comment here!"
+          placeholder="Bạn có cảm nghĩ gì về bài viết này?"
           rows={5}
           maxLength={255}
         />

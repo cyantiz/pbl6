@@ -38,12 +38,12 @@ const RightMenu = ({ mode }: Props) => {
               <>
                 <Menu.Item key={'/posts/mine' + '-right-menu'}>
                   <Link to="/posts/mine">
-                    <CodeOutlined /> My Posts
+                    <CodeOutlined /> Bài của tôi
                   </Link>
                 </Menu.Item>
                 <Menu.Item key={'create-posts' + '-right-menu'}>
                   <Link to="/create-post">
-                    <CodeOutlined /> Create post
+                    <CodeOutlined /> Tạo bài viết
                   </Link>
                 </Menu.Item>
               </>
@@ -58,13 +58,13 @@ const RightMenu = ({ mode }: Props) => {
               </>
             )}
             <Menu.Item key={'profile' + '-right-menu'}>
-              <UserOutlined /> Profile
+              <UserOutlined /> Hồ sơ
             </Menu.Item>
             <Menu.Item key={'recent-reads' + '-right-menu'}>
-              <BookOutlined /> Recent reads
+              <BookOutlined /> Đọc gần đây
             </Menu.Item>
             <Menu.Item key={'log-out' + '-right-menu'} onClick={handleSignOut}>
-              <LogoutOutlined /> Logout
+              <LogoutOutlined /> Đăng xuất
             </Menu.Item>
           </Menu.SubMenu>
         )}

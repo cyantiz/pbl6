@@ -1,6 +1,6 @@
 import { IMediaModel, getMediaUrl } from '@/api/media.api';
 import { PostStatusColorMap } from '@/utils/constant';
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { PostStatus, getMyPosts } from '@api/post.api';
 import { Button, Image, Pagination, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -101,11 +101,11 @@ export default function AdminPostListPage({}: Props) {
       {posts && (
         <>
           <div className="w-full flex justify-between mb-4">
-            <h2 className="font-playfair">My posts</h2>
-            <Button type="primary" onClick={() => navigate('/create-post')}>
+            <h2 className="font-playfair">Danh sách bài viết</h2>
+            {/* <Button type="primary" onClick={() => navigate('/create-post')}>
               <PlusCircleOutlined />
-              Create new post
-            </Button>
+              Tạo bài viết mới
+            </Button> */}
           </div>
           <div>
             <Table

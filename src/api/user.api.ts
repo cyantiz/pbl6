@@ -1,4 +1,5 @@
 import { $get, $post } from '@/utils/axios';
+import axios from 'axios';
 import { Role } from './auth.api';
 import { PaginationResponse } from './pagination';
 
@@ -77,4 +78,17 @@ export const removeEditorRights = async (username: string): Promise<void> => {
   return $post(`/users/account-mgt/remove-editor-rights`, {
     username,
   }).then((resp) => resp.data);
+};
+
+export const getGeoLocation = async (): Promise<{
+  country_code: string;
+  country_name: string;
+  city: string | null;
+  postal: number | null;
+  latitude: number;
+  longitude: number;
+  IPv4: string | null;
+  state: string | null;
+}> => {
+  return axios.get(`https://geolocation-db.com/json/`).then((resp) => resp.data);
 };

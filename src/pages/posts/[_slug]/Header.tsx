@@ -2,7 +2,7 @@ import { useAuthStore } from '@/store';
 import { getFormattedDate } from '@/utils/datetime';
 import { ExtendedPostModel, downvotePost, upvotePost } from '@api/post.api';
 import { Icon } from '@iconify/react';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { FC, useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import { shallow } from 'zustand/shallow';
@@ -10,9 +10,9 @@ import { shallow } from 'zustand/shallow';
 export const PostDetailHeader: FC<
   Pick<
     ExtendedPostModel,
-    'id' | 'title' | 'createdAt' | 'author' | 'upvote' | 'downvote' | 'visitCount'
+    'id' | 'title' | 'createdAt' | 'author' | 'upvote' | 'downvote' | 'visitCount' | 'slug'
   >
-> = ({ id, title, createdAt, author, upvote, downvote, visitCount }) => {
+> = ({ id, slug, title, createdAt, author, upvote, downvote, visitCount }) => {
   const [_upvote, set_Upvote] = useState(upvote);
   const [_downvote, set_Downvote] = useState(downvote);
 
@@ -70,6 +70,19 @@ export const PostDetailHeader: FC<
     }
   };
 
+  const handleCopyLink = () => {
+    const url = `https://sportivefy.info/posts/${slug}`;
+
+    navigator.clipboard.writeText(url);
+    Swal.fire({
+      title: 'Copy thành công!',
+      text: 'Link đã được copy vào clipboard',
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  };
+
   return (
     <header className="mb-4 lg:mb-6 not-format">
       <h1 className="font-playfair mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
@@ -89,7 +102,7 @@ export const PostDetailHeader: FC<
 
         <div className="flex gap-4 items-center max-lg:justify-between">
           <p className="text-sm text-gray-500  dark:text-gray-400 m-0">
-            Written on{' '}
+            Viết ngày{' '}
             <time
               dateTime={getFormattedDate(createdAt, 'dd-MM-YYYY')}
               title={getFormattedDate(createdAt, 'MMM d, yyyy')}
@@ -98,7 +111,7 @@ export const PostDetailHeader: FC<
             </time>
           </p>
 
-          <Button type="link" className="max-lg:!hidden">
+          <Button type="link" className="max-lg:!hidden" onClick={handleCopyLink}>
             <span className="!flex gap-2 text-sm items-center font-medium uppercase">
               <Icon icon="ph:link-bold" className="text-base" />
               <span>Copy Link</span>
@@ -118,10 +131,12 @@ export const PostDetailHeader: FC<
 
 const Views = ({ count }: { count: number }) => {
   return (
-    <div className="upvote flex items-center gap-1 group cursor-pointer">
-      <Icon icon="ph:eye-duotone" className="text-base" />
-      {count}
-    </div>
+    <Tooltip title={`Đã có ${count} người xem bài viết này`}>
+      <div className="upvote flex items-center gap-1 group cursor-pointer">
+        <Icon icon="ph:eye-duotone" className="text-base" />
+        {count}
+      </div>
+    </Tooltip>
   );
 };
 

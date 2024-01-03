@@ -12,9 +12,9 @@ const TopContributors: FC<TopContributorsProps> = ({}) => {
     const fetchData = async () => {
       try {
         const cached = localStorage.getItem('topContributors');
-        if (!cached) return;
         if (cached) {
           setTopContributors(JSON.parse(cached));
+          return;
         }
 
         const res = await getTopContributors({ limit: 5 });
@@ -32,7 +32,7 @@ const TopContributors: FC<TopContributorsProps> = ({}) => {
     <div className="__sidebar__top-contributors">
       <div className="__sidebar__top-contributors__title flex items-center gap-2 mb-4">
         <Icon icon="ph:shooting-star-duotone" className="text-lg text-yellow-500" />
-        <div className="text-base uppercase font-bold text-blue-600">Top Contributors</div>
+        <div className="text-base uppercase font-bold text-blue-600">Thành viên nổi bật</div>
       </div>
       <div className="flex flex-col gap-2 ml-3">
         {topContributors.map((user, index) => (

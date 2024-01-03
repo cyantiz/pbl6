@@ -2,6 +2,7 @@
 import Footer from '@/components/layout-element/Default/Footer';
 import Navbar from '@/components/layout-element/Default/Navbar';
 import Sidebar from '@/components/layout-element/Default/Sidebar';
+import RecentReads from '@/components/layout-element/Default/Sidebar/RecentReads';
 import TopContributors from '@/components/layout-element/Default/Sidebar/TopContributors';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -17,6 +18,7 @@ const Default: FC<Props> = ({}) => {
         <div className="hidden lg:flex flex-col gap-6">
           <Sidebar />
           <TopContributors />
+          <RecentReads />
         </div>
         <div className="w-full h-full">
           <Outlet />

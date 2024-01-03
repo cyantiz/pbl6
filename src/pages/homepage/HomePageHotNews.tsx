@@ -27,7 +27,7 @@ const HomePageHotNews: FC = () => {
 
       <div
         style={{
-          height: 'calc(100vh - 152px)',
+          // height: 'calc(100vh - 152px)',
           overflowY: 'auto',
         }}
         className="max-md:!h-auto"
@@ -77,7 +77,7 @@ const PopularNew: FC<PopularNewProps> = ({
   return (
     <Link
       to={`/posts/${slug}`}
-      className="popular-news flex py-2 px-4 justify-between group cursor-pointer transition-all hover:h-48 h-24 bg-green-100 hover:text-white hover:bg-green-900 relative rounded-sm overflow-hidden"
+      className="popular-news flex py-2 px-4 justify-between group cursor-pointer transition-all hover:h-96 h-48 xl:h-24 xl:hover:h-48 bg-green-100 hover:text-white hover:bg-green-900 relative rounded-sm overflow-hidden"
     >
       {thumbnailUrl && (
         <img

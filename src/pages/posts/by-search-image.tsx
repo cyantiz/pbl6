@@ -3,9 +3,9 @@ import PostPreview from '@/components/PostPreview';
 import { CloseOutlined, FileImageOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Button, Image, Upload } from 'antd';
 import { RcFile } from 'antd/es/upload';
-import { BeforeUploadFileType } from 'rc-upload/lib/interface';
 import { FC, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import Swal from 'sweetalert2';
 
 export type PostsBySearchImageProps = {};
 
@@ -27,6 +27,13 @@ const PostsBySearchImage: FC<PostsBySearchImageProps> = ({}) => {
       refetchOnWindowFocus: false,
       retry: false,
       enabled: false,
+      onError: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      },
     },
   );
 
@@ -77,11 +84,14 @@ export type UploadImageProps = {
 };
 
 const UploadImage: FC<UploadImageProps> = ({ disabledDeleteBtn, file, onFileChange }) => {
-  const customRequest = async ({
-    file,
-  }: {
-    file: Exclude<BeforeUploadFileType, File | boolean> | RcFile;
-  }) => {
+  const customRequest = async ({ file }: { file: RcFile }) => {
+    if (file.size > 1024 * 1024 * 1) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Image must be less than 1MB',
+      });
+    }
     onFileChange && onFileChange(file as File);
   };
 
@@ -105,7 +115,7 @@ const UploadImage: FC<UploadImageProps> = ({ disabledDeleteBtn, file, onFileChan
               onDrop={(e) => {
                 console.log('Dropped files', e.dataTransfer.files);
               }}
-              customRequest={({ file }) => customRequest({ file })}
+              customRequest={({ file }) => customRequest({ file: file as RcFile })}
             >
               <p className="ant-upload-drag-icon">
                 <FileImageOutlined className="!text-[32px]" />

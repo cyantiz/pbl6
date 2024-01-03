@@ -41,7 +41,7 @@ const PostCommentSection: FC<PostCommentSectionProps> = ({ postId }) => {
         className="comment-section__title
         font-playfair font-bold text-2xl text-gray-800 dark:text-gray-100 mb-8"
       >
-        Comments
+        Bình luận
       </div>
       <CommentInput postId={postId} afterComment={() => refetch()} />
       <Divider />

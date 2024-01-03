@@ -54,7 +54,7 @@ const QuillBody: FC<QuillBodyProps> = ({ content, onChange }) => {
     <>
       <div className="container mx-auto py-2 h-96">
         <div className="mb-2 block">
-          <Label value="Body" className="font-bold" />
+          <Label value="Nội dung" className="font-bold" />
         </div>
         <ReactQuill
           theme="snow"

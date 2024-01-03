@@ -1,8 +1,10 @@
 import { $post } from '@/utils/axios';
+import { getUserId } from '@/utils/common';
 import { $get } from '../utils/axios';
 import { ICategoryModel } from './category.api';
 import { IMediaModel } from './media.api';
 import { PaginationResponse } from './pagination';
+import { getGeoLocation } from './user.api';
 
 export enum PostStatus {
   DRAFT = 'DRAFT',
@@ -168,5 +170,37 @@ export const commentToPost = async (params: { postId: number; text: string }): P
   const { postId, text } = params;
   return $post(`${MODEL_PREFIX}/${postId}/comments`, {
     comment: text,
+  }).then((resp) => resp.data);
+};
+
+export const readPost = async (params: {
+  postId: number;
+  IP?: string;
+  userId?: number;
+  percentage?: number;
+}): Promise<void> => {
+  const { postId, IP, userId, percentage } = params;
+  return $post(`${MODEL_PREFIX}/${postId}/read`, {
+    userId,
+    IP,
+    percentage,
+  }).then((resp) => resp.data);
+};
+
+export const getRecentReads = async (params: {
+  limit: number;
+}): Promise<PaginationResponse<ExtendedPostModel>> => {
+  const { limit } = params;
+
+  const userId = getUserId();
+  const { IPv4 } = await getGeoLocation();
+
+  return $get(`${MODEL_PREFIX}/read`, {
+    params: {
+      page: 1,
+      pageSize: limit,
+      userId,
+      IP: IPv4,
+    },
   }).then((resp) => resp.data);
 };
