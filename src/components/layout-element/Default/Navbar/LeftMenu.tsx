@@ -13,14 +13,14 @@ const NAVBAR_LINKS = [
     icon: <AppstoreOutlined />,
   },
   {
-    name: 'Trending News',
-    path: '/posts/trending',
-    icon: <StockOutlined />,
+    name: 'Hot News',
+    path: '/posts/hot-news',
+    icon: <FireOutlined />,
   },
   {
     name: 'Latest News',
     path: '/posts',
-    icon: <FireOutlined />,
+    icon: <StockOutlined />,
   },
 ];
 
