@@ -32,7 +32,7 @@ export const UploadThumbnail: FC<Props> = ({ onChange }) => {
         <p className="ant-upload-drag-icon">
           <FileImageOutlined className="!text-[32px]" />
         </p>
-        <p className="ant-upload-text !text-sm">Click or drag thumbnail to this area</p>
+        <p className="ant-upload-text !text-sm">Nhấn hoặc kéo thả ảnh vào ô này</p>
       </Upload.Dragger>
     </div>
   );

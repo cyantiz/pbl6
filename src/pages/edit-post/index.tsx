@@ -163,15 +163,13 @@ const EditPostPage: FC<EditPostPageProps> = ({}) => {
           <Form.Item<string>
             label="Tiêu đề"
             name="title"
-            rules={[{ required: true, message: 'Please input title!' }]}
+            rules={[{ required: true, message: 'Xin vui lòng nhập tiêu đề!' }]}
           >
             <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
           </Form.Item>
         </div>
         <div>
-          <Tooltip
-            title={title.split(' ').length > 6 ? '' : 'Title must be at least 8 words to generate'}
-          >
+          <Tooltip title={title.split(' ').length > 6 ? '' : 'Tiêu đề phải có ít nhất 6 từ'}>
             <Button
               disabled={!(title.split(' ').length > 6)}
               onClick={() => mutateGenerateContentFromTitle()}
@@ -249,11 +247,11 @@ const EditPostPage: FC<EditPostPageProps> = ({}) => {
             loading={isLoadingEditPost}
           >
             <SaveOutlined />
-            Save to Draft
+            Lưu nháp
           </Button>
           <Button htmlType="submit" type="primary" loading={isLoadingEditPost}>
             <CloudUploadOutlined />
-            Update
+            Cập nhật
           </Button>
         </div>
       </Form>

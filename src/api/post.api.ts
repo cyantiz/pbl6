@@ -109,20 +109,26 @@ export const getFrontPagePost = async (): Promise<ExtendedPostModel> => {
   return $get(`${MODEL_PREFIX}/front-page`).then((resp) => resp.data);
 };
 
-export const createPost = async (data: CreatePostDto): Promise<IPostModel> => {
+export const createPost = async (params: CreatePostDto): Promise<IPostModel> => {
   const formData = new FormData();
-  formData.append('filename', data.thumbnailFile);
-  formData.append('title', data.title);
-  formData.append('body', data.body);
-  formData.append('categoryId', data.categoryId.toString());
-  formData.append('status', data.status);
-  data.secondaryText && formData.append('status', data.secondaryText);
+  formData.append('filename', params.thumbnailFile);
+  formData.append('title', params.title);
+  formData.append('body', params.body);
+  formData.append('categoryId', params.categoryId.toString());
+  formData.append('status', params.status);
+  params.secondaryText && formData.append('status', params.secondaryText);
 
-  return $post(`${MODEL_PREFIX}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  }).then((resp) => resp.data);
+  try {
+    const { data } = await $post(`${MODEL_PREFIX}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log('error in axios create post');
+    throw error;
+  }
 };
 
 export const editPost = async (data: UpdatePostDto): Promise<IPostModel> => {
