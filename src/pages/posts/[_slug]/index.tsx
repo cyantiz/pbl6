@@ -1,4 +1,3 @@
-import { getGeoLocation } from '@/api/user.api';
 import PostCommentSection from '@/components/Comment/PostCommentSection';
 import { getUserId } from '@/utils/common';
 import { IMediaModel, getMediaUrl } from '@api/media.api';
@@ -29,12 +28,14 @@ export default function PostDetailPage({}: Props) {
     const markReadPost = async () => {
       if (!post) return;
 
-      const { IPv4 } = await getGeoLocation();
+      // const { IPv4 } = await getGeoLocation();
       const userId = getUserId();
+
+      if (!userId) return;
 
       readPost({
         postId: post.id,
-        IP: IPv4 ? IPv4 : undefined,
+        // IP: IPv4 ? IPv4 : undefined,
         userId: userId ? userId : undefined,
       });
     };

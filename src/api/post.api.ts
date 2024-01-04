@@ -4,7 +4,6 @@ import { $get } from '../utils/axios';
 import { ICategoryModel } from './category.api';
 import { IMediaModel } from './media.api';
 import { PaginationResponse } from './pagination';
-import { getGeoLocation } from './user.api';
 
 export enum PostStatus {
   DRAFT = 'DRAFT',
@@ -234,14 +233,14 @@ export const getRecentReads = async (params: {
   const { limit } = params;
 
   const userId = getUserId();
-  const { IPv4 } = await getGeoLocation();
+  // const { IPv4 } = await getGeoLocation();
 
   return $get(`${MODEL_PREFIX}/read`, {
     params: {
       page: 1,
       pageSize: limit,
       userId,
-      IP: IPv4,
+      // IP: IPv4,
     },
   }).then((resp) => resp.data);
 };
