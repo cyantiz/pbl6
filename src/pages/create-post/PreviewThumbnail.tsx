@@ -4,6 +4,7 @@ import { FC } from 'react';
 
 export type PreviewThumbnailProps = {
   file: File | null;
+  url?: string;
   onDeleteBtnClick: () => void;
   disableDeleteBtn?: boolean;
 };
@@ -12,10 +13,12 @@ const PreviewThumbnail: FC<PreviewThumbnailProps> = ({
   file,
   onDeleteBtnClick,
   disableDeleteBtn,
+  url,
 }) => {
-  if (!file) return <></>;
+  if (!file && !url) return <></>;
 
-  const blob = new Blob([file], { type: 'image/png' });
+  const blob = file ? new Blob([file], { type: 'image/png' }) : null;
+  const imgUrl = blob ? URL.createObjectURL(blob) : url ?? '';
 
   return (
     <div className="max-w-sm aspect-video relative group">
@@ -29,7 +32,7 @@ const PreviewThumbnail: FC<PreviewThumbnailProps> = ({
         <DeleteOutlined />
       </Button>
       <div className="w-full h-full rounded overflow-hidden border border-dashed border-blue-500">
-        <img src={URL.createObjectURL(blob)} className="w-full h-full object-cover" />
+        <img src={imgUrl} className="w-full h-full object-cover" />
       </div>
     </div>
   );

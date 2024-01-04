@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/store';
-import { BookOutlined, CodeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { CodeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Role } from '@api/auth.api';
 import { Avatar, Menu, MenuProps } from 'antd';
 import { useCallback } from 'react';
@@ -57,12 +57,12 @@ const RightMenu = ({ mode }: Props) => {
                 </Menu.Item>
               </>
             )}
-            <Menu.Item key={'profile' + '-right-menu'}>
+            {/* <Menu.Item key={'profile' + '-right-menu'}>
               <UserOutlined /> Hồ sơ
             </Menu.Item>
             <Menu.Item key={'recent-reads' + '-right-menu'}>
               <BookOutlined /> Đọc gần đây
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item key={'log-out' + '-right-menu'} onClick={handleSignOut}>
               <LogoutOutlined /> Đăng xuất
             </Menu.Item>

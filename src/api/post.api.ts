@@ -1,4 +1,4 @@
-import { $post } from '@/utils/axios';
+import { $delete, $post, $put } from '@/utils/axios';
 import { getUserId } from '@/utils/common';
 import { $get } from '../utils/axios';
 import { ICategoryModel } from './category.api';
@@ -73,6 +73,18 @@ export type CreatePostDto = {
   categoryId: number;
   thumbnailFile: File;
   status: PostStatus;
+  secondaryText?: string;
+};
+
+export type UpdatePostDto = {
+  id: number;
+  title?: string;
+  body?: string;
+  categoryId?: number;
+  thumbnailFile?: File;
+  thumbnailFileUrl?: string;
+  status?: PostStatus;
+  secondaryText?: string;
 };
 
 const MODEL_PREFIX = 'post';
@@ -104,12 +116,35 @@ export const createPost = async (data: CreatePostDto): Promise<IPostModel> => {
   formData.append('body', data.body);
   formData.append('categoryId', data.categoryId.toString());
   formData.append('status', data.status);
+  data.secondaryText && formData.append('status', data.secondaryText);
 
   return $post(`${MODEL_PREFIX}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   }).then((resp) => resp.data);
+};
+
+export const editPost = async (data: UpdatePostDto): Promise<IPostModel> => {
+  const formData = new FormData();
+  if (!data.thumbnailFileUrl && data.thumbnailFile) {
+    formData.append('filename', data.thumbnailFile);
+  }
+  data.title && formData.append('title', data.title);
+  data.body && formData.append('body', data.body);
+  data.categoryId && formData.append('categoryId', data.categoryId.toString());
+  data.status && formData.append('status', data.status);
+  data.secondaryText && formData.append('secondaryText', data.secondaryText);
+
+  return $put(`${MODEL_PREFIX}/${data.id}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).then((resp) => resp.data);
+};
+
+export const deletePost = async (id: number): Promise<void> => {
+  return $delete(`${MODEL_PREFIX}/${id}`).then((resp) => resp.data);
 };
 
 export const getPostById = async (id: number): Promise<ExtendedPostModel> => {

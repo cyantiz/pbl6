@@ -10,6 +10,7 @@ import AdminAccountGraphPage from '@/pages/admin/accounts/graph';
 import AdminUserManagementPage from '@/pages/admin/accounts/users';
 import CategoryListPage from '@/pages/category-list';
 import CreatePostPage from '@/pages/create-post';
+import EditPostPage from '@/pages/edit-post';
 import HomePage from '@/pages/homepage';
 import LoginPage from '@/pages/login';
 import Playground from '@/pages/playground';
@@ -77,6 +78,7 @@ function App() {
                   <Route path="/posts/by-search-image" element={<PostsBySearchImage />} />
                   <Route path="/posts/hot-news" element={<HotNewsPostsPage />} />
                   <Route path="/create-post" element={<CreatePostPage />} />
+                  <Route path="/edit-post/:_postId" element={<EditPostPage />} />
                 </Route>
 
                 <Route path="/admin" element={<AdminLayout />}>
